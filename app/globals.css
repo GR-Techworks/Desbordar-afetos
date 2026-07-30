@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #7a1a2e;
+  --color-primary-light: #9c2a42;
+  --color-primary-dark: #5a0f1e;
+  --color-acolhimento: #f5e3d8;
+  --color-acolhimento-light: #fdf6f0;
+  --color-warm-white: #fdf7f2;
+  --color-warm-beige: #f5ece4;
+  --color-soft-text: #2c1a10;
+  --color-muted-text: #5a4a3e;
+  --transition-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--color-warm-white);
+  color: var(--color-soft-text);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-warm-beige);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-dark);
+}
+
+/* GSAP initial states for reveal animations */
+.gsap-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+/* Prevent flash of unanimated content */
+.gsap-init {
+  opacity: 0;
+}
+
+@layer components {
+  .section-label {
+    @apply font-mono text-[0.75rem] tracking-[0.15em] uppercase text-primary opacity-70 mb-3 inline-block;
+  }
+
+  .section-title {
+    @apply font-display text-[clamp(2.2rem,5vw,3.8rem)] font-semibold leading-[1.2] text-soft-text mb-5;
+  }
+
+  .section-title .highlight {
+    @apply text-primary italic;
+  }
+
+  .section-subtitle {
+    @apply font-body text-[clamp(1rem,1.4vw,1.25rem)] text-muted-text leading-[1.7];
+  }
+
+  .btn-primary {
+    @apply inline-block font-body font-medium text-[0.95rem] py-[14px] px-9
+      bg-primary text-white rounded-[60px] cursor-pointer no-underline tracking-[0.02em]
+      transition-all duration-300
+      shadow-[0_4px_20px_rgba(122,26,46,0.25)]
+      hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(122,26,46,0.35)]
+      active:translate-y-0;
+  }
+
+  .btn-outline {
+    @apply inline-block font-body font-medium text-[0.95rem] py-[14px] px-9
+      bg-transparent text-soft-text border border-[1.5px] border-soft-text rounded-[60px]
+      cursor-pointer no-underline tracking-[0.02em]
+      transition-all duration-300
+      hover:bg-soft-text hover:text-white hover:-translate-y-0.5
+      hover:shadow-[0_8px_28px_rgba(44,26,16,0.15)];
+  }
+}
