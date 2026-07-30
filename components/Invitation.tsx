@@ -1,0 +1,66 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+export default function Invitation() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".invitation-content",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 78%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      id="invitation"
+      ref={sectionRef}
+      className="py-20 bg-primary text-white text-center relative overflow-hidden"
+    >
+      {/* Decorative radials */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.06), transparent 60%), radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.04), transparent 50%)",
+        }}
+      />
+
+      <div className="invitation-content relative z-[1] max-w-[640px] mx-auto px-6 opacity-0">
+        <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-semibold mb-4 leading-[1.2]">
+          Comece sua jornada
+        </h2>
+        <p className="text-[1.05rem] opacity-80 mb-8 leading-[1.7]">
+          O primeiro passo é o mais importante. Agende uma conversa inicial e descubra
+          como a psicologia e a arte podem transformar sua relação com você mesmo.
+        </p>
+        <a
+          href="#contact"
+          className="inline-block font-body font-medium text-[1rem] py-4 px-11 bg-white text-primary-dark rounded-[60px] cursor-pointer no-underline shadow-[0_8px_32px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)] hover:bg-acolhimento"
+        >
+          Quero dar esse passo
+        </a>
+      </div>
+    </section>
+  );
+}
