@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Background from "next/bg-hero";
+// import Background from "next/bg-hero";
 
 gsap.registerPlugin(ScrollTrigger);
 
