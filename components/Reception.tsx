@@ -27,13 +27,13 @@ const steps = [
   },
 ];
 
-export default function Journey() {
+export default function Reception() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        ".journey-header-item",
+        ".reception-header-item",
         { opacity: 0, y: 40 },
         {
           opacity: 1,
@@ -46,7 +46,7 @@ export default function Journey() {
             start: "top 82%",
             toggleActions: "play none none reverse",
           },
-        }
+        },
       );
 
       gsap.fromTo(
@@ -59,11 +59,11 @@ export default function Journey() {
           duration: 0.8,
           ease: "power2.out",
           scrollTrigger: {
-            trigger: ".journey-steps",
+            trigger: ".reception-steps",
             start: "top 78%",
             toggleActions: "play none none reverse",
           },
-        }
+        },
       );
     }, sectionRef);
 
@@ -72,20 +72,23 @@ export default function Journey() {
 
   return (
     <section
-      id="journey"
+      id="reception"
       ref={sectionRef}
       className="py-[100px] md:py-[70px] bg-warm-white"
     >
       <div className="max-w-[1200px] mx-auto px-6 text-center">
-        <span className="journey-header-item section-label opacity-0">Processo</span>
-        <h2 className="journey-header-item section-title opacity-0">
+        <span className="reception-header-item section-label opacity-0">
+          Processo
+        </span>
+        <h2 className="reception-header-item section-title opacity-0">
           A jornada <span className="highlight">terapêutica</span>
         </h2>
-        <p className="journey-header-item section-subtitle centered mx-auto text-center opacity-0">
-          Um caminho feito de escuta, criação e transformação — passo a passo, fio a fio.
+        <p className="reception-header-item section-subtitle centered mx-auto text-center opacity-0">
+          Um caminho feito de escuta, criação e transformação — passo a passo,
+          fio a fio.
         </p>
 
-        <div className="journey-steps grid grid-cols-1 md:grid-cols-3 gap-[24px] lg:gap-[30px] mt-12 max-w-[480px] md:max-w-none mx-auto">
+        <div className="reception-steps grid grid-cols-1 md:grid-cols-3 gap-[24px] lg:gap-[30px] mt-12 max-w-[480px] md:max-w-none mx-auto">
           {steps.map((s) => (
             <div
               key={s.number}
@@ -98,7 +101,9 @@ export default function Journey() {
               <h4 className="font-display text-[1.2rem] font-semibold mb-2 text-soft-text">
                 {s.title}
               </h4>
-              <p className="text-[0.95rem] text-muted-text leading-[1.6]">{s.desc}</p>
+              <p className="text-[0.95rem] text-muted-text leading-[1.6]">
+                {s.desc}
+              </p>
             </div>
           ))}
         </div>

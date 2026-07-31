@@ -1,43 +1,52 @@
 // Components
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ThreadProgress from "@/components/ThreadProgress";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 // Sections
 import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Intersection from "@/components/Intersection";
-import Journey from "@/components/Journey";
-import Practices from "@/components/Practices";
-import Ana from "@/components/Ana";
-import Invitation from "@/components/Invitation";
+import Reception from "@/components/Reception";
+import Autonomy from "@/components/Autonomy";
+import Vulnerability from "@/components/Vulnerability";
+import Connection from "@/components/Connection";
+import Expression from "@/components/Expression";
+import Textile from "@/components/Textile";
 import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
     <main>
       <Header />
+      <ThreadProgress />
+      <WhatsAppButton />
+
       <div id="hero">
         <Hero />
       </div>
 
-      <Intersection />
-
-      <div id="journey">
-        <Journey />
+      <div id="reception">
+        <Reception />
       </div>
 
-      <div id="practices">
-        <Practices />
+      <div id="connection">
+        <Connection />
       </div>
 
-      <div id="ana">
-        <Ana />
+      <div id="expression">
+        <Expression />
       </div>
 
-      <Invitation />
+      <div id="autonomy">
+        <Autonomy />
+      </div>
 
-      <div id="about">
-        <About />
+      <div id="vulnerability">
+        <Vulnerability />
+      </div>
+
+      <div id="textile">
+        <Textile />
       </div>
 
       <div id="contact">
