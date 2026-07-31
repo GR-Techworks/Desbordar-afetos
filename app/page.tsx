@@ -1,6 +1,8 @@
 // Components
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ThreadProgress from "@/components/ThreadProgress";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 // Sections
 import Hero from "@/components/Hero";
@@ -10,11 +12,14 @@ import Vulnerability from "@/components/Vulnerability";
 import Connection from "@/components/Connection";
 import Expression from "@/components/Expression";
 import Textile from "@/components/Textile";
+import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
     <main>
       <Header />
+      <ThreadProgress />
+      <WhatsAppButton />
 
       <div id="hero">
         <Hero />
@@ -42,6 +47,10 @@ export default function Home() {
 
       <div id="textile">
         <Textile />
+      </div>
+
+      <div id="contact">
+        <Contact />
       </div>
 
       <Footer />

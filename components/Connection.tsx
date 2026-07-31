@@ -35,6 +35,10 @@ export default function Connection() {
     return () => ctx.revert();
   }, []);
 
+  // SVG de Fallback para manter o código limpo
+  const svgFallback =
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'%3E%3Crect width='800' height='1000' fill='%23F5ECE4'/%3E%3Cpath d='M200 300 Q350 200 500 350 Q650 500 450 700 Q300 850 200 700 Q100 550 200 300' fill='%23E8D5C4' opacity='0.5'/%3E%3Ccircle cx='400' cy='500' r='120' fill='%23D4B8A8' opacity='0.3'/%3E%3C/svg%3E";
+
   return (
     <section
       id="connection"
@@ -43,26 +47,62 @@ export default function Connection() {
     >
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-[40px] lg:gap-[60px] items-center">
-          {/* Image */}
-          <div className="connection-image-wrap relative rounded-2xl overflow-hidden bg-acolhimento aspect-[4/5] shadow-[0_20px_60px_rgba(44,16,10,0.08)] opacity-0">
-            <img
-              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'%3E%3Crect width='800' height='1000' fill='%23F5ECE4'/%3E%3Cpath d='M200 300 Q350 200 500 350 Q650 500 450 700 Q300 850 200 700 Q100 550 200 300' fill='%23E8D5C4' opacity='0.5'/%3E%3Ccircle cx='400' cy='500' r='120' fill='%23D4B8A8' opacity='0.3'/%3E%3C/svg%3E"
-              alt="Espaço acolhedor do Atelier Desbordar Afetos"
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-            {/* Decorative dashed circle */}
-            <div className="absolute -bottom-5 -right-5 w-[120px] h-[120px] rounded-full border-2 border-dashed border-primary opacity-20 pointer-events-none" />
+          {/* Área da Colagem de Imagens */}
+          <div className="connection-image-wrap relative w-full aspect-[4/5] opacity-0 group">
+            {/* Foto 1: Fundo (Superior Esquerda) */}
+            <div className="absolute top-0 left-0 w-[70%] h-[65%] z-10 -rotate-3 transition-all duration-500 hover:rotate-0 hover:z-40 hover:scale-105 shadow-lg rounded-2xl overflow-hidden border-[6px] border-white">
+              <img
+                src="/foto-detalhe-arte.jpg" // Sugestão: Uma foto focada em um bordado ou detalhe do consultório
+                alt="Detalhe da arte no atelier"
+                className="w-full h-full object-cover"
+                loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.src = svgFallback;
+                  e.currentTarget.onerror = null;
+                }}
+              />
+            </div>
+
+            {/* Foto 2: Principal (Inferior Direita) */}
+            <div className="absolute bottom-4 right-0 w-[75%] h-[70%] z-20 rotate-2 transition-all duration-500 hover:-rotate-1 hover:z-40 hover:scale-105 shadow-2xl rounded-2xl overflow-hidden border-[6px] border-white">
+              <img
+                src="/foto-ana.jpg" // A foto principal da Ana
+                alt="Ana Clara no Atelier Desbordar Afetos"
+                className="w-full h-full object-cover"
+                loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.src = svgFallback;
+                  e.currentTarget.onerror = null;
+                }}
+              />
+            </div>
+
+            {/* Foto 3: Destaque Redondo (Centro/Direita) */}
+            <div className="absolute top-[20%] -right-4 md:-right-8 w-[40%] aspect-square z-30 rotate-12 transition-all duration-500 hover:rotate-0 hover:scale-110 shadow-xl rounded-full overflow-hidden border-[4px] border-[#F5ECE4]">
+              <img
+                src="/foto-extra.jpg" // Sugestão: Ferramentas de arte, texturas ou um rosto sorrindo
+                alt="Acolhimento e arte"
+                className="w-full h-full object-cover"
+                loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.src = svgFallback;
+                  e.currentTarget.onerror = null;
+                }}
+              />
+            </div>
+
+            {/* Círculo tracejado decorativo (Ajustado para compor com a colagem) */}
+            <div className="absolute -bottom-8 left-8 w-[140px] h-[140px] rounded-full border-2 border-dashed border-primary opacity-20 pointer-events-none -z-10" />
           </div>
 
           {/* Text */}
-          <div className="connection-text flex flex-col gap-0">
-            <span className="connection-text-item section-label opacity-0">
-              Sobre
+          <div className="connection-text flex flex-col gap-0 mt-8 md:mt-0">
+            <span className="connection-text-item section-label opacity-0 block mb-2 font-medium tracking-wider text-sm uppercase text-primary">
+              Conexão
             </span>
-            <h2 className="connection-text-item section-title opacity-0">
-              Um espaço onde a <span className="highlight">arte</span> encontra
-              a <span className="highlight">escuta</span>
+            <h2 className="connection-text-item section-title opacity-0 text-3xl md:text-4xl font-bold mb-4">
+              Um espaço onde a <span className="text-primary">arte</span>{" "}
+              encontra a <span className="text-primary">escuta</span>
             </h2>
             <p className="connection-text-item text-muted-text mb-4 text-[1.05rem] leading-[1.8] opacity-0">
               O <strong>Desbordar Afetos</strong> é um atelier clínico criado
@@ -80,7 +120,7 @@ export default function Connection() {
               Aqui, cada fio, cada cor, cada gesto criativo é um convite a
               desbordar afetos e a tecer novas narrativas.
             </p>
-            <div className="connection-text-item font-display text-2xl italic text-primary mt-2 opacity-0">
+            <div className="connection-text-item font-display text-2xl italic text-primary mt-4 opacity-0">
               — Ana Clara
             </div>
           </div>

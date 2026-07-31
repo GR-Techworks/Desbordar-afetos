@@ -6,11 +6,11 @@ export default function Footer() {
           Desbordar Afetos
         </div>
         <div className="text-[0.85rem] opacity-50 mb-4">
-          psicologia e arte · atelier clínico
+          psicologia e arte · ateliê-clínico
         </div>
         <div className="w-10 h-px bg-white/10 mx-auto my-4" />
         <div className="flex gap-5 justify-center mt-3">
-          {["Instagram", "LinkedIn", "Email"].map((link) => (
+          {["Instagram", "Email"].map((link) => (
             <a
               key={link}
               href="#"

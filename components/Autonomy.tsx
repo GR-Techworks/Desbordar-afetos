@@ -46,10 +46,15 @@ export default function Autonomy() {
           {/* Image */}
           <div className="autonomy-image rounded-[20px] overflow-hidden aspect-[4/5] bg-acolhimento shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0">
             <img
-              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'%3E%3Crect width='800' height='1000' fill='%23FDF7F2'/%3E%3Ccircle cx='400' cy='400' r='200' fill='%23E8D5C4' opacity='0.4'/%3E%3Cpath d='M300 550 Q400 700 500 550' stroke='%237A1A2E' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E"
-              alt="Ana Clara - psicóloga e artista"
+              src="/foto-ana.jpg"
               className="w-full h-full object-cover"
               loading="lazy"
+              alt="Ana Clara - psicóloga e artista"
+              onError={(e) => {
+                e.currentTarget.src =
+                  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'%3E%3Crect width='800' height='1000' fill='%23FDF7F2'/%3E%3Ccircle cx='400' cy='400' r='200' fill='%23E8D5C4' opacity='0.4'/%3E%3Cpath d='M300 550 Q400 700 500 550' stroke='%237A1A2E' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E";
+                e.currentTarget.onerror = null; // Impede um loop infinito caso o fallback também falhe
+              }}
             />
           </div>
 
@@ -78,7 +83,7 @@ export default function Autonomy() {
               em beleza.&rdquo;
             </div>
             <div className="autonomy-text-item font-mono text-[0.8rem] text-primary opacity-60 mt-1">
-              Psicóloga · CRP 12/34567
+              Psicóloga · CRP 04/81276
             </div>
           </div>
         </div>
