@@ -119,7 +119,7 @@ export default function Hero() {
           ref={badgeRef}
           className="font-mono text-[0.7rem] tracking-[0.25em] uppercase text-white/60 mb-5 inline-block border border-white/15 py-1.5 px-4 rounded-[60px] backdrop-blur-sm"
         >
-          ✦ Atelier Clínico
+          ✦ Ateliê-Clínico
         </span>
 
         <h1

@@ -4,44 +4,44 @@ import Footer from "@/components/Footer";
 
 // Sections
 import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Intersection from "@/components/Intersection";
-import Journey from "@/components/Journey";
-import Practices from "@/components/Practices";
-import Ana from "@/components/Ana";
-import Invitation from "@/components/Invitation";
-import Contact from "@/components/Contact";
+import Reception from "@/components/Reception";
+import Autonomy from "@/components/Autonomy";
+import Vulnerability from "@/components/Vulnerability";
+import Connection from "@/components/Connection";
+import Expression from "@/components/Expression";
+import Textile from "@/components/Textile";
 
 export default function Home() {
   return (
     <main>
       <Header />
+
       <div id="hero">
         <Hero />
       </div>
 
-      <Intersection />
-
-      <div id="journey">
-        <Journey />
+      <div id="reception">
+        <Reception />
       </div>
 
-      <div id="practices">
-        <Practices />
+      <div id="connection">
+        <Connection />
       </div>
 
-      <div id="ana">
-        <Ana />
+      <div id="expression">
+        <Expression />
       </div>
 
-      <Invitation />
-
-      <div id="about">
-        <About />
+      <div id="autonomy">
+        <Autonomy />
       </div>
 
-      <div id="contact">
-        <Contact />
+      <div id="vulnerability">
+        <Vulnerability />
+      </div>
+
+      <div id="textile">
+        <Textile />
       </div>
 
       <Footer />
