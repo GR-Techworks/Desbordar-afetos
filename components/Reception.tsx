@@ -6,24 +6,24 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const steps = [
+const services = [
   {
-    emoji: "🌱",
+    icon: "🌿",
     number: "01",
-    title: "Acolhimento",
-    desc: "Um espaço seguro onde sua história é ouvida com presença e sensibilidade.",
+    title: "Psicoterapia individual",
+    desc: "Encontros semanais, presenciais ou online, para aprofundar o autoconhecimento e ressignificar experiências — no seu tempo.",
   },
   {
-    emoji: "🧵",
+    icon: "🧵",
     number: "02",
-    title: "Expressão",
-    desc: "Através da arte, damos forma ao que habita em nós — cores, traços, texturas.",
+    title: "Arte como linguagem",
+    desc: "Bordado, pintura e colagem entram no processo. Nenhuma experiência artística é necessária — só a vontade de expressar.",
   },
   {
-    emoji: "🦋",
+    icon: "🦋",
     number: "03",
-    title: "Transformação",
-    desc: "Do desbordar dos afetos nascem novas narrativas e possibilidades de ser.",
+    title: "Processo singular",
+    desc: "Cada percurso é único. Construímos juntos um espaço de escuta real, onde o que você traz importa e faz sentido.",
   },
 ];
 
@@ -78,23 +78,23 @@ export default function Reception() {
     >
       <div className="max-w-[1200px] mx-auto px-6 text-center">
         <span className="reception-header-item section-label opacity-0">
-          Processo
+          Psicoterapia
         </span>
         <h2 className="reception-header-item section-title opacity-0">
-          A jornada <span className="highlight">terapêutica</span>
+          Um espaço de <span className="highlight">escuta</span> e criação
         </h2>
         <p className="reception-header-item section-subtitle centered mx-auto text-center opacity-0">
-          Um caminho feito de escuta, criação e transformação — passo a passo,
-          fio a fio.
+          A psicoterapia aqui não segue um roteiro fixo. É um encontro vivo —
+          entre quem você é e quem você pode se tornar.
         </p>
 
         <div className="reception-steps grid grid-cols-1 md:grid-cols-3 gap-[24px] lg:gap-[30px] mt-12 max-w-[480px] md:max-w-none mx-auto">
-          {steps.map((s) => (
+          {services.map((s) => (
             <div
               key={s.number}
               className="step text-center py-9 px-6 bg-white rounded-[20px] border border-primary/[0.06] shadow-[0_4px_24px_rgba(44,16,10,0.03)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_48px_rgba(44,16,10,0.06)] relative opacity-0"
             >
-              <span className="text-[2.4rem] block mb-2">{s.emoji}</span>
+              <span className="text-[2.4rem] block mb-2">{s.icon}</span>
               <div className="font-display text-[2.8rem] font-semibold text-primary opacity-15 leading-none mb-1">
                 {s.number}
               </div>
@@ -106,6 +106,16 @@ export default function Reception() {
               </p>
             </div>
           ))}
+        </div>
+
+        {/* CTA sutil */}
+        <div className="reception-header-item opacity-0 mt-10">
+          <a
+            href="#textile"
+            className="inline-block font-body text-[0.95rem] text-primary border border-primary/30 rounded-[60px] py-3 px-8 transition-all duration-300 hover:bg-primary hover:text-white hover:-translate-y-0.5"
+          >
+            Agendar primeira conversa
+          </a>
         </div>
       </div>
     </section>

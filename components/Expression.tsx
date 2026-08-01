@@ -9,23 +9,23 @@ gsap.registerPlugin(ScrollTrigger);
 const pillars = [
   {
     icon: "🧵",
-    title: "Arte têxtil",
-    desc: "Bordado e costura como metáfora do tecer emocional.",
+    title: "Bordado terapêutico",
+    desc: "Ponto a ponto, o bordado ensina presença e paciência — e cria espaço para que os afetos tomem forma.",
   },
   {
     icon: "🎨",
-    title: "Pintura",
-    desc: "As cores como expressão do que não cabe em palavras.",
+    title: "Pintura e cor",
+    desc: "As cores dizem o que as palavras ainda não encontraram. Pintar é também uma forma de se ouvir.",
   },
   {
-    icon: "🖌️",
+    icon: "🪡",
+    title: "Arte têxtil",
+    desc: "Tecer, remendar, sobrepor — metáforas vivas para os processos de reconstrução que atravessamos.",
+  },
+  {
+    icon: "✂️",
     title: "Processos criativos",
-    desc: "O fazer artístico como caminho de autoconhecimento.",
-  },
-  {
-    icon: "🤲",
-    title: "Acolhimento",
-    desc: "Um espaço seguro para a vulnerabilidade florescer.",
+    desc: "Colagem, escrita, fotografia. Cada pessoa encontra a linguagem que mais fala de si mesma.",
   },
 ];
 
@@ -69,9 +69,8 @@ export default function Expression() {
     <section
       id="expression"
       ref={sectionRef}
-      className="py-[100px] md:py-[70px] bg-acolhimento-light relative overflow-hidden"
+      className="py-[100px] md:py-[70px] bg-warm-white relative overflow-hidden"
     >
-      {/* Decorative radial */}
       <div
         className="absolute -top-[40%] -right-[20%] w-[600px] h-[600px] rounded-full pointer-events-none"
         style={{
@@ -82,19 +81,18 @@ export default function Expression() {
 
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-[36px] lg:gap-[50px] items-center">
-          {/* Text + pillars */}
+          {/* Texto + pilares */}
           <div>
             <span className="expression-text-item section-label opacity-0">
-              Encontro
+              A interseção
             </span>
             <h2 className="expression-text-item section-title opacity-0">
-              Onde a <span className="highlight">psicologia</span> e a{" "}
-              <span className="highlight">arte</span> se tocam
+              A psicologia e a <span className="highlight">arte</span>
             </h2>
             <p className="expression-text-item section-subtitle opacity-0">
-              Acreditamos que a expressão artística é uma linguagem profunda da
-              subjetividade. Integramos abordagens clínicas com processos
-              criativos para promover autonomia, acolhimento e transformação.
+              A expressão artística acessa o que a fala, sozinha, não alcança.
+              No Desbordar Afetos, criar é também uma forma de conhecer — e de
+              ressignificar — a própria história.
             </p>
 
             <div className="grid grid-cols-2 gap-5 mt-6 max-[480px]:grid-cols-1">
@@ -116,12 +114,17 @@ export default function Expression() {
           </div>
 
           {/* Visual */}
-          <div className="expression-visual relative rounded-2xl overflow-hidden bg-warm-beige aspect-[4/5] shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0">
+          <div className="expression-visual relative rounded-2xl overflow-hidden bg-acolhimento aspect-[4/5] shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0">
             <img
-              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'%3E%3Crect width='800' height='1000' fill='%23FDF7F2'/%3E%3Cpath d='M100 200 Q300 100 500 250 Q700 400 550 650 Q400 850 200 700 Q50 550 100 200' fill='%23E8D5C4' opacity='0.4'/%3E%3Ccircle cx='450' cy='500' r='160' fill='%23D4B8A8' opacity='0.2'/%3E%3Crect x='280' y='400' width='240' height='200' rx='40' fill='%237A1A2E' opacity='0.08'/%3E%3C/svg%3E"
+              src="/foto-arte-psicologia.jpg"
               alt="Arte e psicologia em sintonia"
               className="w-full h-full object-cover"
               loading="lazy"
+              onError={(e) => {
+                e.currentTarget.src =
+                  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'%3E%3Crect width='800' height='1000' fill='%23FDF7F2'/%3E%3Cpath d='M100 200 Q300 100 500 250 Q700 400 550 650 Q400 850 200 700 Q50 550 100 200' fill='%23E8D5C4' opacity='0.4'/%3E%3Ccircle cx='450' cy='500' r='160' fill='%23D4B8A8' opacity='0.2'/%3E%3C/svg%3E";
+                e.currentTarget.onerror = null;
+              }}
             />
           </div>
         </div>
