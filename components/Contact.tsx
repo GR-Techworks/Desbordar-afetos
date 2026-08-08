@@ -46,8 +46,9 @@ export default function Contact() {
         },
       );
 
+      // Animação do formulário primeiro
       gsap.fromTo(
-        ".contact-info",
+        ".contact-form",
         { opacity: 0, y: 30 },
         {
           opacity: 1,
@@ -62,8 +63,9 @@ export default function Contact() {
         },
       );
 
+      // Animação das informações logo em seguida
       gsap.fromTo(
-        ".contact-form",
+        ".contact-info",
         { opacity: 0, y: 30 },
         {
           opacity: 1,
@@ -214,96 +216,6 @@ export default function Contact() {
           </div>
 
           <div className="contact-grid grid grid-cols-1 md:grid-cols-2 gap-[36px] lg:gap-[50px] items-start">
-            {/* Info */}
-            <div className="contact-info opacity-0">
-              <p className="font-semibold text-soft-text mb-2 text-lg">
-                Estou aqui para ouvir você.
-              </p>
-              <p className="text-muted-text text-[1rem] leading-[1.8] mb-8 text-soft-text/80">
-                O Desbordar Afetos é um espaço pensado para acolher sua história
-                com sensibilidade e respeito. Os atendimentos são realizados de
-                forma totalmente online, adaptando-se à sua rotina.
-              </p>
-
-              <div className="flex flex-col gap-1 mb-8">
-                {[
-                  { label: "Email", value: "desbordarafetos@gmail.com" },
-                  { label: "WhatsApp", value: "(32) 99817-5767" },
-                  { label: "Local", value: "100% online" },
-                ].map((item) => (
-                  <div
-                    key={item.label}
-                    className="flex items-center gap-3 py-3 border-b border-soft-text/[0.05]"
-                  >
-                    <span className="font-mono text-[0.75rem] uppercase tracking-[0.1em] text-soft-text/60 min-w-[70px]">
-                      {item.label}
-                    </span>
-                    <span className="text-[0.95rem] text-soft-text font-medium">
-                      {item.value}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Redes Sociais */}
-              <div>
-                <span className="block font-mono text-[0.75rem] uppercase tracking-[0.1em] text-soft-text/60 mb-4">
-                  Acompanhe nas redes
-                </span>
-                <div className="flex gap-4">
-                  <a
-                    href="https://www.instagram.com/desbordar_afetos/"
-                    target="_blank"
-                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-soft-text/10 text-soft-text hover:text-primary hover:border-primary/30 transition-all"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <rect
-                        x="2"
-                        y="2"
-                        width="20"
-                        height="20"
-                        rx="5"
-                        ry="5"
-                      ></rect>
-                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                    <span className="text-sm font-medium">Instagram</span>
-                  </a>
-                  <a
-                    href="https://www.tiktok.com/@desbordar_afetos?_r=1&_t=ZS-98VIuW1t7VU"
-                    target="_blank"
-                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-soft-text/10 text-soft-text hover:text-primary hover:border-primary/30 transition-all"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
-                    </svg>
-                    <span className="text-sm font-medium">TikTok</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-
             {/* Form */}
             <form
               className="contact-form bg-white p-8 rounded-[24px] shadow-sm border border-soft-text/5 opacity-0 overflow-hidden"
@@ -445,6 +357,96 @@ export default function Contact() {
                 </svg>
               </button>
             </form>
+
+            {/* Info */}
+            <div className="contact-info opacity-0">
+              <p className="font-semibold text-soft-text mb-2 text-lg">
+                Estou aqui para ouvir você.
+              </p>
+              <p className="text-muted-text text-[1rem] leading-[1.8] mb-8 text-soft-text/80">
+                O Desbordar Afetos é um espaço pensado para acolher sua história
+                com sensibilidade e respeito. Os atendimentos são realizados de
+                forma totalmente online, adaptando-se à sua rotina.
+              </p>
+
+              <div className="flex flex-col gap-1 mb-8">
+                {[
+                  { label: "Email", value: "desbordarafetos@gmail.com" },
+                  { label: "WhatsApp", value: "(32) 99817-5767" },
+                  { label: "Local", value: "100% online" },
+                ].map((item) => (
+                  <div
+                    key={item.label}
+                    className="flex items-center gap-3 py-3 border-b border-soft-text/[0.05]"
+                  >
+                    <span className="font-mono text-[0.75rem] uppercase tracking-[0.1em] text-soft-text/60 min-w-[70px]">
+                      {item.label}
+                    </span>
+                    <span className="text-[0.95rem] text-soft-text font-medium">
+                      {item.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Redes Sociais */}
+              <div>
+                <span className="block font-mono text-[0.75rem] uppercase tracking-[0.1em] text-soft-text/60 mb-4">
+                  Acompanhe nas redes
+                </span>
+                <div className="flex gap-4">
+                  <a
+                    href="https://www.instagram.com/desbordar_afetos/"
+                    target="_blank"
+                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-soft-text/10 text-soft-text hover:text-primary hover:border-primary/30 transition-all"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect
+                        x="2"
+                        y="2"
+                        width="20"
+                        height="20"
+                        rx="5"
+                        ry="5"
+                      ></rect>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                    <span className="text-sm font-medium">Instagram</span>
+                  </a>
+                  <a
+                    href="https://www.tiktok.com/@desbordar_afetos?_r=1&_t=ZS-98VIuW1t7VU"
+                    target="_blank"
+                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-soft-text/10 text-soft-text hover:text-primary hover:border-primary/30 transition-all"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                    </svg>
+                    <span className="text-sm font-medium">TikTok</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

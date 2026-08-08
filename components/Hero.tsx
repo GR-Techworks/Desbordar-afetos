@@ -13,40 +13,40 @@ const backgrounds = [
     type: "image",
     src: "/bg-hero-3.jpg",
   },
-  {
-    id: "bg-gradient",
-    type: "gradient",
-    style: {
-      background:
-        "radial-gradient(ellipse at 30% 40%, rgba(122,26,46,0.9) 0%, rgba(44,16,10,1) 70%), radial-gradient(ellipse at 70% 60%, rgba(74,44,94,0.6) 0%, transparent 60%)",
-    },
-  },
-  {
-    id: "bg-image",
-    type: "image",
-    src: "/bg-hero-2.jpg",
-  },
-  {
-    id: "bg-gradient",
-    type: "gradient",
-    style: {
-      background:
-        "radial-gradient(ellipse at 30% 40%, rgba(122,26,46,0.9) 0%, rgba(44,16,10,1) 70%), radial-gradient(ellipse at 70% 60%, rgba(74,44,94,0.6) 0%, transparent 60%)",
-    },
-  },
-  {
-    id: "bg-image",
-    type: "image",
-    src: "/bg-hero.jpg",
-  },
-  {
-    id: "bg-gradient",
-    type: "gradient",
-    style: {
-      background:
-        "radial-gradient(ellipse at 30% 40%, rgba(122,26,46,0.9) 0%, rgba(44,16,10,1) 70%), radial-gradient(ellipse at 70% 60%, rgba(74,44,94,0.6) 0%, transparent 60%)",
-    },
-  },
+  // {
+  //   id: "bg-gradient",
+  //   type: "gradient",
+  //   style: {
+  //     background:
+  //       "radial-gradient(ellipse at 30% 40%, rgba(122,26,46,0.9) 0%, rgba(44,16,10,1) 70%), radial-gradient(ellipse at 70% 60%, rgba(74,44,94,0.6) 0%, transparent 60%)",
+  //   },
+  // },
+  // {
+  //   id: "bg-image",
+  //   type: "image",
+  //   src: "/bg-hero-2.jpg",
+  // },
+  // {
+  //   id: "bg-gradient",
+  //   type: "gradient",
+  //   style: {
+  //     background:
+  //       "radial-gradient(ellipse at 30% 40%, rgba(122,26,46,0.9) 0%, rgba(44,16,10,1) 70%), radial-gradient(ellipse at 70% 60%, rgba(74,44,94,0.6) 0%, transparent 60%)",
+  //   },
+  // },
+  // {
+  //   id: "bg-image",
+  //   type: "image",
+  //   src: "/bg-hero.jpg",
+  // },
+  // {
+  //   id: "bg-gradient",
+  //   type: "gradient",
+  //   style: {
+  //     background:
+  //       "radial-gradient(ellipse at 30% 40%, rgba(122,26,46,0.9) 0%, rgba(44,16,10,1) 70%), radial-gradient(ellipse at 70% 60%, rgba(74,44,94,0.6) 0%, transparent 60%)",
+  //   },
+  // },
 ];
 
 export default function Hero() {
@@ -63,9 +63,8 @@ export default function Hero() {
   const ctaRef = useRef<HTMLDivElement>(null);
 
   // Funções de navegação do carrossel
-  const nextBg = () => setActiveBg((prev) => (prev + 1) % backgrounds.length);
-  const prevBg = () =>
-    setActiveBg((prev) => (prev - 1 + backgrounds.length) % backgrounds.length);
+  // const nextBg = () => setActiveBg((prev) => (prev + 1) % backgrounds.length);
+  // const prevBg = () => setActiveBg((prev) => (prev - 1 + backgrounds.length) % backgrounds.length);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -143,13 +142,13 @@ export default function Hero() {
                 style={{ backgroundImage: `url(${bg.src})` }}
               />
             ) : (
-              <div className="w-full h-full" style={bg.style} />
+              <div className="w-full h-full" />
             )}
           </div>
         ))}
       </div>
 
-      {/* Botões do Carrossel (Glassmorphism) */}
+      {/* Botões do Carrossel (Glassmorphism)
       <button
         onClick={prevBg}
         className="absolute left-4 md:left-8 md:top-1/2 md:-translate-y-1/2 z-[5] w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white opacity-30 hover:opacity-100 hover:bg-white/20 transition-all duration-300 cursor-pointer"
@@ -188,7 +187,7 @@ export default function Hero() {
         >
           <polyline points="9 18 15 12 9 6"></polyline>
         </svg>
-      </button>
+      </button> */}
 
       {/* Overlay Escuro[cite: 1] */}
       <div
@@ -222,9 +221,7 @@ export default function Hero() {
           ref={subRef}
           className="font-body text-[clamp(1rem,1.5vw,1.35rem)] opacity-0 max-w-[560px] mx-auto mb-8 leading-[1.7] font-light"
         >
-          Onde a psicologia e a arte se entrelaçam para acolher,
-          <br />
-          refletir e transformar.
+          Entrelace entre texto, têxtil, poético, político e visual.
         </p>
 
         <div
