@@ -14,6 +14,7 @@ import Connection from "@/components/Connection";
 import Expression from "@/components/Expression";
 import Textile from "@/components/Textile";
 import Contact from "@/components/Contact";
+import Community from "@/components/Community";
 
 const C = {
   heroDark: "#1a0a08", // bg-primary-dark do Hero
@@ -35,18 +36,22 @@ export default function Home() {
         <Hero />
       </div>
 
+      <div id="connection">
+        <Connection />
+      </div>
+
       <div id="reception">
         <Reception />
       </div>
 
       <WaveDivider from={C.cotton} to={C.blushLight} height={70} />
 
-      <div id="connection">
-        <Connection />
-      </div>
-
       <div id="expression">
         <Expression />
+      </div>
+
+      <div id="community">
+        <Community />
       </div>
 
       <div id="autonomy">

@@ -210,8 +210,7 @@ export default function Contact() {
               className="contact-header-item section-subtitle mx-auto text-center opacity-0 text-soft-text/80"
               style={{ maxWidth: "480px" }}
             >
-              Entre em contato para agendar sua primeira conversa ou tirar
-              dúvidas.
+              Se este espaço fez sentido para você, será um prazer conversarmos.
             </p>
           </div>
 

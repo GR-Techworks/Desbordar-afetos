@@ -46,13 +46,17 @@ export default function Connection() {
     >
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-[40px] lg:gap-[60px] items-center">
-          {/* Colagem de fotos */}
+          {/* Imagem Única */}
           <div className="connection-image-wrap relative w-full aspect-[4/5] opacity-0 group">
-            <div className="absolute top-0 left-0 w-[70%] h-[65%] z-10 -rotate-3 transition-all duration-500 hover:rotate-0 hover:z-40 hover:scale-105 shadow-lg rounded-2xl overflow-hidden border-[6px] border-white">
+            {/* Elemento decorativo pontilhado ao fundo */}
+            <div className="absolute -bottom-8 -left-8 md:-left-4 w-[140px] h-[140px] rounded-full border-2 border-dashed border-primary opacity-20 pointer-events-none z-0" />
+
+            {/* Container da Imagem */}
+            <div className="relative w-full h-full z-10 rounded-[24px] shadow-xl overflow-hidden border-[6px] border-white">
               <img
                 src="/foto-detalhe-arte.jpg"
-                alt="Momento de criação no atelier"
-                className="w-full h-full object-cover"
+                alt="Psicologia Histórico-Cultural e Arte"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 loading="lazy"
                 onError={(e) => {
                   e.currentTarget.src = svgFallback;
@@ -60,87 +64,57 @@ export default function Connection() {
                 }}
               />
             </div>
-            <div className="absolute bottom-4 right-0 w-[75%] h-[70%] z-20 rotate-2 transition-all duration-500 hover:-rotate-1 hover:z-40 hover:scale-105 shadow-2xl rounded-2xl overflow-hidden border-[6px] border-white">
-              <img
-                src="/foto-comunidade.jpg"
-                alt="Comunidade Desbordar Afetos"
-                className="w-full h-full object-cover"
-                loading="lazy"
-                onError={(e) => {
-                  e.currentTarget.src = svgFallback;
-                  e.currentTarget.onerror = null;
-                }}
-              />
-            </div>
-            <div className="absolute top-[20%] -right-4 md:-right-8 w-[40%] aspect-square z-30 rotate-12 transition-all duration-500 hover:rotate-0 hover:scale-110 shadow-xl rounded-full overflow-hidden border-[4px] border-[#F5ECE4]">
-              <img
-                src="/foto-extra.jpg"
-                alt="Encontro e conexão"
-                className="w-full h-full object-cover"
-                loading="lazy"
-                onError={(e) => {
-                  e.currentTarget.src = svgFallback;
-                  e.currentTarget.onerror = null;
-                }}
-              />
-            </div>
-            <div className="absolute -bottom-8 left-8 w-[140px] h-[140px] rounded-full border-2 border-dashed border-primary opacity-20 pointer-events-none -z-10" />
           </div>
 
           {/* Texto */}
           <div className="flex flex-col gap-0 mt-8 md:mt-0">
             <span className="connection-text-item section-label opacity-0">
-              Comunidade
+              Psicologia Histórico-Cultural
             </span>
             <h2 className="connection-text-item section-title opacity-0">
-              Comunidade <span className="highlight">Desbordar Afetos</span>
+              Como nos tornamos quem <span className="highlight">somos</span>?
             </h2>
             <p className="connection-text-item text-muted-text mb-4 text-[1.05rem] leading-[1.8] opacity-0">
-              O Desbordar Afetos existe também como comunidade — um espaço de
-              encontro coletivo onde a arte, a escuta e o afeto se entrelaçam
-              além das sessões individuais.
+              Ninguém nasce pronto. Tornamo-nos quem somos na relação com outras
+              pessoas, com a cultura, com as histórias que vivemos e com os
+              sentidos que construímos ao longo da vida.{" "}
+              <span className="font-bold italic">
+                A Psicologia Histórico-Cultural compreende que nossa
+                subjetividade não está apenas dentro de nós: ela é tecida nas
+                relações, nas experiências e nas marcas do mundo que
+                atravessamos.
+              </span>
             </p>
             <p className="connection-text-item text-muted-text mb-4 text-[1.05rem] leading-[1.8] opacity-0">
-              Círculos de criação, encontros temáticos e grupos de expressão
-              artística abertos a pessoas que buscam se reconectar consigo
-              mesmas — em companhia, com leveza.
+              É por isso que acredito que{" "}
+              <span className="font-bold italic">
+                cuidar também é criar novas possibilidades de significar a
+                própria história
+              </span>
+              . <span className="font-bold italic">Desbordar</span> significa
+              justamente esse movimento. É quando aquilo que sentimos já não
+              cabe apenas dentro de nós e procura outras formas de existir:
+              palavra, silêncio, bordado, pintura, gesto ou pausa.
             </p>
             <p className="connection-text-item text-muted-text mb-4 text-[1.05rem] leading-[1.8] opacity-0">
-              Aqui, ninguém precisa saber desenhar, bordar ou pintar. Só precisa
-              querer desbordar o que carrega.
+              Mas há também o <span className="font-bold italic">"des"</span> de
+              desatar, desprender, desaprender.{" "}
+              <span className="font-bold italic">
+                Soltar aquilo que já não faz sentido para abrir espaço para
+                novas formas de viver
+              </span>
+              . O Desbordar Afetos nasce dessa aposta: a de que, quando uma
+              experiência encontra{" "}
+              <span className="font-bold italic">linguagem</span>, ela também
+              pode encontrar{" "}
+              <span className="font-bold italic">novos sentidos</span>.
             </p>
-
-            {/* Destaques */}
-            <div className="connection-text-item opacity-0 mt-3 grid grid-cols-2 gap-4">
-              {[
-                {
-                  label: "Círculos de criação",
-                  detail: "Encontros em grupo com mediação artística",
-                },
-                {
-                  label: "Online e presencial",
-                  detail: "Formatos acessíveis para diferentes realidades",
-                },
-              ].map((item) => (
-                <div
-                  key={item.label}
-                  className="bg-white/70 rounded-xl p-4 border border-primary/[0.06]"
-                >
-                  <p className="font-display text-[0.95rem] font-semibold text-soft-text mb-1">
-                    {item.label}
-                  </p>
-                  <p className="text-[0.82rem] text-muted-text leading-[1.5]">
-                    {item.detail}
-                  </p>
-                </div>
-              ))}
-            </div>
 
             <a
               href="#contact"
               className="connection-text-item opacity-0 mt-6 self-start font-body text-[0.9rem] text-primary border-b border-primary/40 pb-0.5 transition-all duration-300 hover:border-primary"
             >
-              Quero fazer parte →
+              Quero saber mais →
             </a>
           </div>
         </div>

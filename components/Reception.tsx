@@ -144,7 +144,7 @@ export default function Reception() {
 
         <div className="reception-header-item opacity-0 mt-10">
           <a
-            href="#textile"
+            href="#contact"
             className="inline-block font-body text-[0.95rem] text-primary border border-primary/30 rounded-[60px] py-3 px-8 transition-all duration-300 hover:bg-primary hover:text-white hover:-translate-y-0.5"
           >
             Agendar primeira conversa

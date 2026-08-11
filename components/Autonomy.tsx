@@ -6,6 +6,27 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const pillars = [
+  {
+    word: "Ético",
+    accent: "#7c070c",
+    symbol: "§",
+    desc: "Reconhece o sigilo, o respeito à singularidade e a responsabilidade de construir um espaço seguro de escuta.",
+  },
+  {
+    word: "Político",
+    accent: "#a0522d",
+    symbol: "⊕",
+    desc: "Compreende que o sofrimento nunca é apenas individual, mas também atravessado pela cultura, pela história e pelas condições concretas de vida.",
+  },
+  {
+    word: "Estético",
+    accent: "#5c3d2e",
+    symbol: "✦",
+    desc: "Acredita que criar também é uma forma de cuidar. A palavra, a literatura, o bordado, a pintura e outras linguagens ampliam aquilo que conseguimos sentir, narrar e transformar.",
+  },
+];
+
 const benefits = [
   {
     icon: "🪞",
@@ -55,6 +76,39 @@ export default function Autonomy() {
       );
 
       gsap.fromTo(
+        ".pillar-item",
+        { opacity: 0, x: -20 },
+        {
+          opacity: 1,
+          x: 0,
+          stagger: 0.15,
+          duration: 0.7,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".pillars-block",
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        },
+      );
+
+      gsap.fromTo(
+        ".closing-line",
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".closing-line",
+            start: "top 90%",
+            toggleActions: "play none none reverse",
+          },
+        },
+      );
+
+      gsap.fromTo(
         ".benefit-item",
         { opacity: 0, y: 30 },
         {
@@ -83,9 +137,9 @@ export default function Autonomy() {
     >
       <div className="max-w-[1200px] mx-auto px-6">
         {/* — Abordagem clínica — */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[36px] lg:gap-[50px] items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[36px] lg:gap-[50px] items-start">
           {/* Foto */}
-          <div className="autonomy-image rounded-[20px] overflow-hidden aspect-[4/5] bg-acolhimento shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0">
+          <div className="autonomy-image rounded-[20px] overflow-hidden aspect-[4/5] bg-acolhimento shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0 md:sticky md:top-28">
             <img
               src="/foto-ana.jpg"
               className="w-full h-full object-cover"
@@ -107,7 +161,8 @@ export default function Autonomy() {
             <h2 className="autonomy-text-item section-title opacity-0">
               Sobre <span className="highlight">mim</span>
             </h2>
-            <p className="autonomy-text-item text-muted-text text-[1.05rem] leading-[1.8] mb-4 opacity-0">
+
+            <p className="autonomy-text-item text-muted-text text-[1.05rem] leading-[1.8] mb-8 opacity-0">
               Sou Ana Clara Reis, psicóloga (CRP 04/81276), formada pelo Centro
               Universitário Academia (UniAcademia), pós-graduada em Psicologia
               Social e Comunidades e pós-graduanda em Psicologia Clínica
@@ -115,18 +170,68 @@ export default function Autonomy() {
               podem ser compreendidas, sentidos podem ser recriados e novas
               possibilidades de existir podem ser construídas.
             </p>
-            <p className="autonomy-text-item text-muted-text text-[1.05rem] leading-[1.8] mb-4 opacity-0">
-              Não acredito em neutralidade clínica. Acredito em presença real,
-              em escuta que acolhe contradições, e em processos que respeitam o
-              tempo de cada pessoa — sem pressa de "resolver", com disposição
-              genuína para estar junto no que é difícil.
+
+            {/* Frase de transição */}
+            <p className="autonomy-text-item text-[0.8rem] uppercase tracking-[0.18em] text-primary/50 font-mono mb-5 opacity-0">
+              Meu trabalho é sustentado por três compromissos
             </p>
-            <p className="autonomy-text-item text-muted-text text-[1.05rem] leading-[1.8] mb-4 opacity-0">
-              A arte entra não como técnica, mas como linguagem. Uma forma de
-              acessar o que ainda não tem nome — e de criar novos sentidos para
-              o que já vivemos.
-            </p>
-            <div className="autonomy-text-item font-display text-[1.2rem] italic text-primary pt-5 pb-2 border-t-2 border-primary/[0.08] mt-4 opacity-0">
+
+            {/* Pilares */}
+            <div className="pillars-block flex flex-col gap-0">
+              {pillars.map((p, i) => (
+                <div
+                  key={p.word}
+                  className="pillar-item opacity-0 flex gap-5 items-start py-5 border-b border-primary/[0.07] last:border-b-0"
+                >
+                  {/* Barra lateral colorida + símbolo */}
+                  <div className="flex flex-col items-center gap-1 pt-0.5 shrink-0">
+                    <span
+                      className="text-[1.1rem] leading-none"
+                      style={{ color: p.accent }}
+                    >
+                      {p.symbol}
+                    </span>
+                    {i < pillars.length - 1 && (
+                      <div
+                        className="w-px flex-1 mt-2"
+                        style={{
+                          height: "100%",
+                          minHeight: "32px",
+                          background: `linear-gradient(to bottom, ${p.accent}40, transparent)`,
+                        }}
+                      />
+                    )}
+                  </div>
+
+                  <div>
+                    <span
+                      className="font-display text-[1.05rem] font-semibold italic block mb-1"
+                      style={{ color: p.accent }}
+                    >
+                      {p.word}
+                    </span>
+                    <p className="text-muted-text text-[0.93rem] leading-[1.75]">
+                      {p.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Linha de fechamento */}
+            <div className="closing-line opacity-0 mt-8 pl-5 border-l-2 border-primary/20">
+              <p className="text-muted-text text-[0.97rem] leading-[1.8]">
+                É desse lugar que construo a comunidade{" "}
+                <strong className="text-soft-text font-semibold">
+                  Desbordar Afetos
+                </strong>
+                : uma prática comprometida com a ampliação da autoconsciência,
+                da autonomia e da criação de novos sentidos para a própria
+                história.
+              </p>
+            </div>
+
+            <div className="autonomy-text-item font-display text-[1.2rem] italic text-primary pt-5 pb-2 border-t-2 border-primary/[0.08] mt-8 opacity-0">
               &ldquo;A arte nos ensina que o que desborda pode ser transformado
               em beleza.&rdquo;
             </div>

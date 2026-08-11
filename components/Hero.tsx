@@ -6,438 +6,182 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Array de configuração dos fundos do carrossel
 const backgrounds = [
   {
     id: "bg-image",
     type: "image",
     src: "/bg-hero-3.jpg",
   },
-  // {
-  //   id: "bg-gradient",
-  //   type: "gradient",
-  //   style: {
-  //     background:
-  //       "radial-gradient(ellipse at 30% 40%, rgba(122,26,46,0.9) 0%, rgba(44,16,10,1) 70%), radial-gradient(ellipse at 70% 60%, rgba(74,44,94,0.6) 0%, transparent 60%)",
-  //   },
-  // },
-  // {
-  //   id: "bg-image",
-  //   type: "image",
-  //   src: "/bg-hero-2.jpg",
-  // },
-  // {
-  //   id: "bg-gradient",
-  //   type: "gradient",
-  //   style: {
-  //     background:
-  //       "radial-gradient(ellipse at 30% 40%, rgba(122,26,46,0.9) 0%, rgba(44,16,10,1) 70%), radial-gradient(ellipse at 70% 60%, rgba(74,44,94,0.6) 0%, transparent 60%)",
-  //   },
-  // },
-  // {
-  //   id: "bg-image",
-  //   type: "image",
-  //   src: "/bg-hero.jpg",
-  // },
-  // {
-  //   id: "bg-gradient",
-  //   type: "gradient",
-  //   style: {
-  //     background:
-  //       "radial-gradient(ellipse at 30% 40%, rgba(122,26,46,0.9) 0%, rgba(44,16,10,1) 70%), radial-gradient(ellipse at 70% 60%, rgba(74,44,94,0.6) 0%, transparent 60%)",
-  //   },
-  // },
 ];
 
 export default function Hero() {
-  // Controle do carrossel
   const [activeBg, setActiveBg] = useState(0);
 
-  const heroRef = useRef<HTMLElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const bgContainerRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  // Referências para o GSAP
+  const wrapperRef = useRef<HTMLElement>(null);
+  const curtainRef = useRef<HTMLDivElement>(null);
+  const quoteTextRef = useRef<HTMLDivElement>(null);
+  const oldHeroContentRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
-  const h1Ref = useRef<HTMLHeadingElement>(null);
-  const subRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-
-  // Funções de navegação do carrossel
-  // const nextBg = () => setActiveBg((prev) => (prev + 1) % backgrounds.length);
-  // const prevBg = () => setActiveBg((prev) => (prev - 1 + backgrounds.length) % backgrounds.length);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Entrance animations[cite: 1]
+      // 1. Animação de entrada da Citação (Fade In suave ao carregar a página)
       gsap.fromTo(
-        h1Ref.current,
+        quoteTextRef.current,
         { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1.2, delay: 0.6, ease: "power2.out" },
-      );
-      gsap.fromTo(
-        subRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 1, delay: 0.9, ease: "power2.out" },
-      );
-      gsap.fromTo(
-        ctaRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 1, delay: 1.1, ease: "power2.out" },
+        { opacity: 1, y: 0, duration: 1.8, delay: 0.3, ease: "power3.out" },
       );
 
-      // Scroll parallax[cite: 1]
-      gsap.to(heroRef.current, {
+      // 2. Efeito "Cortina" atrelado ao Scroll
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1.2,
-          onUpdate: (self) => {
-            const p = self.progress;
-            if (overlayRef.current) {
-              overlayRef.current.style.opacity = String(1 + p * 0.6); //[cite: 1]
-            }
-            if (bgContainerRef.current) {
-              // Adaptado do efeito original do vídeo para o container do carrossel[cite: 1]
-              bgContainerRef.current.style.filter = `brightness(${
-                0.85 - p * 0.4
-              })`;
-            }
-            if (contentRef.current) {
-              contentRef.current.style.opacity = String(1 - p * 0.8); //[cite: 1]
-              contentRef.current.style.transform = `translateY(${p * 40}px)`; //[cite: 1]
-            }
-            if (indicatorRef.current) {
-              indicatorRef.current.style.opacity = String(1 - p * 1.5); //[cite: 1]
-            }
-          },
+          trigger: wrapperRef.current,
+          start: "top top", // Começa quando o topo do wrapper encosta no topo da tela
+          end: "+=100%", // Dura exatamente a altura de 1 tela (100vh)
+          scrub: 1, // O movimento '1' deixa o scroll amanteigado
         },
       });
-    }, heroRef);
+
+      // A cortina vinho desliza para cima...
+      tl.to(curtainRef.current, { yPercent: -100, ease: "none" }, 0);
+
+      // ...enquanto o Hero do Ateliê sofre um zoom-in e fade-in de trás da cortina
+      tl.fromTo(
+        oldHeroContentRef.current,
+        { scale: 0.85, opacity: 0, y: 60 },
+        { scale: 1, opacity: 1, y: 0, ease: "power2.out" },
+        0,
+      );
+
+      // O indicador de "Desvendar" some logo no começo do scroll
+      tl.to(indicatorRef.current, { opacity: 0, y: -20, duration: 0.3 }, 0);
+    }, wrapperRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
     <section
-      id="hero"
-      ref={heroRef}
-      className="relative w-full h-screen min-h-[700px] overflow-hidden flex items-center justify-center bg-primary-dark group"
+      ref={wrapperRef}
+      id="hero-wrapper"
+      className="relative w-full h-[200vh] bg-[#2c100a]"
     >
-      {/* Background Carousel Container */}
-      <div
-        ref={bgContainerRef}
-        className="absolute inset-0 z-0 bg-[#2c100a] transition-all duration-300"
-      >
-        {backgrounds.map((bg, index) => (
-          <div
-            key={bg.id}
-            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
-              index === activeBg ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            {bg.type === "image" ? (
+      {/* O wrapper precisa ter 200vh para permitir rolagem de 2 seções inteiras. 
+          O comentário agora está no lugar certo! */}
+
+      {/* Container "Sticky" (Fixo) que segura o conteúdo na tela enquanto ocorre a mágica */}
+      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
+        {/* =========================================
+            SESSÃO 2 (REVELADA POR BAIXO) - Seu Hero Atual 
+            ========================================= */}
+        <div className="absolute inset-0 z-0">
+          {/* Background Carousel */}
+          <div className="absolute inset-0 z-0 bg-[#2c100a] transition-all duration-300">
+            {backgrounds.map((bg, index) => (
               <div
-                className="w-full h-full bg-cover bg-center"
-                style={{ backgroundImage: `url(${bg.src})` }}
-              />
-            ) : (
-              <div className="w-full h-full" />
-            )}
+                key={bg.id}
+                className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
+                  index === activeBg ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                {bg.type === "image" ? (
+                  <div
+                    className="w-full h-full bg-cover bg-center"
+                    style={{ backgroundImage: `url(${bg.src})` }}
+                  />
+                ) : (
+                  <div className="w-full h-full" />
+                )}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      {/* Botões do Carrossel (Glassmorphism)
-      <button
-        onClick={prevBg}
-        className="absolute left-4 md:left-8 md:top-1/2 md:-translate-y-1/2 z-[5] w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white opacity-30 hover:opacity-100 hover:bg-white/20 transition-all duration-300 cursor-pointer"
-        aria-label="Fundo anterior"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-      </button>
+          {/* Overlay Escuro */}
+          <div
+            className="absolute inset-0 z-[1] pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(44, 16, 10, 0.4) 0%, rgba(44, 16, 10, 0.6) 100%)",
+            }}
+          />
 
-      <button
-        onClick={nextBg}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-[5] w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white opacity-30 hover:opacity-100 hover:bg-white/20 transition-all duration-300 cursor-pointer"
-        aria-label="Próximo fundo"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </button> */}
-
-      {/* Overlay Escuro[cite: 1] */}
-      <div
-        ref={overlayRef}
-        className="absolute inset-0 z-[2] pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(44, 16, 10, 0.21) 0%, rgba(44, 16, 10, 0.28) 50%, rgba(44, 16, 10, 0.56) 100%)",
-        }}
-      />
-
-      {/* Content[cite: 1] */}
-      <div
-        ref={contentRef}
-        className="relative z-[3] max-w-[820px] px-6 text-center text-white"
-      >
-        <span className="font-mono text-[0.7rem] tracking-[0.25em] uppercase text-white/60 mb-5 inline-block border border-white/15 py-1.5 px-4 rounded-[60px] backdrop-blur-sm">
-          ✦ Ateliê-Clínico
-        </span>
-
-        <h1
-          ref={h1Ref}
-          className="font-display text-[clamp(2.8rem,8vw,5.4rem)] font-semibold leading-[1.08] mb-[18px] tracking-[-0.02em] opacity-0"
-        >
-          Desbordar
-          <br />
-          <span className="italic text-[#f0c8b0]">Afetos</span>
-        </h1>
-
-        <p
-          ref={subRef}
-          className="font-body text-[clamp(1rem,1.5vw,1.35rem)] opacity-0 max-w-[560px] mx-auto mb-8 leading-[1.7] font-light"
-        >
-          Entrelace entre texto, têxtil, poético, político e visual.
-        </p>
-
-        <div
-          ref={ctaRef}
-          className="flex flex-wrap gap-4 justify-center opacity-0"
-        >
-          <a
-            href="#invitation"
-            className="inline-block font-body font-medium text-[0.95rem] py-[14px] px-9 rounded-[60px] cursor-pointer no-underline tracking-[0.02em] transition-all duration-300 bg-white text-primary-dark shadow-[0_8px_32px_rgba(0,0,0,0.2)] hover:bg-acolhimento hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(0,0,0,0.3)]"
+          {/* Conteúdo Central do Ateliê */}
+          <div
+            ref={oldHeroContentRef}
+            className="relative z-[2] w-full h-full flex flex-col items-center justify-center px-6 text-center text-white"
           >
-            Iniciar jornada
-          </a>
-          <a
-            href="#about"
-            className="inline-block font-body font-light text-[0.95rem] py-[14px] px-9 bg-transparent text-white border border-white/40 rounded-[60px] cursor-pointer no-underline tracking-[0.02em] transition-all duration-300 backdrop-blur-sm hover:bg-white/12 hover:border-white/70 hover:-translate-y-0.5"
-          >
-            Conhecer mais
-          </a>
+            <span className="font-mono text-[0.7rem] tracking-[0.25em] uppercase text-white/60 mb-5 inline-block border border-white/15 py-1.5 px-4 rounded-[60px] backdrop-blur-sm">
+              ✦ Ateliê-Clínico
+            </span>
+
+            <h1 className="font-display text-[clamp(2.8rem,8vw,5.4rem)] font-semibold leading-[1.08] mb-[18px] tracking-[-0.02em]">
+              Desbordar
+              <br />
+              <span className="italic text-[#f0c8b0]">Afetos</span>
+            </h1>
+
+            <p className="font-body text-[clamp(1rem,1.5vw,1.35rem)] max-w-[560px] mx-auto mb-8 leading-[1.7] font-light">
+              Entrelace entre texto, têxtil, poético, político e visual.
+            </p>
+
+            <div className="flex flex-wrap gap-4 justify-center">
+              <a
+                href="#connection"
+                className="inline-block font-body font-medium text-[0.95rem] py-[14px] px-9 rounded-[60px] cursor-pointer no-underline tracking-[0.02em] transition-all duration-300 bg-white text-primary-dark shadow-[0_8px_32px_rgba(0,0,0,0.2)] hover:bg-acolhimento hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(0,0,0,0.3)]"
+              >
+                Iniciar jornada
+              </a>
+              <a
+                href="#contact"
+                className="inline-block font-body font-light text-[0.95rem] py-[14px] px-9 bg-transparent text-white border border-white/40 rounded-[60px] cursor-pointer no-underline tracking-[0.02em] transition-all duration-300 backdrop-blur-sm hover:bg-white/12 hover:border-white/70 hover:-translate-y-0.5"
+              >
+                Agendar horário
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* Scroll indicator[cite: 1] */}
-      <div
-        ref={indicatorRef}
-        className="absolute bottom-9 left-1/2 z-[3] flex flex-col items-center gap-2 text-white/40 font-mono text-[0.6rem] tracking-[0.15em] uppercase animate-float-down"
-        style={{ transform: "translateX(-50%)" }}
-      >
-        <span>Rolar</span>
+        {/* =========================================
+            SESSÃO 1 (CORTINA) - Citação Clarice Lispector
+            ========================================= */}
         <div
-          className="w-px h-10"
+          ref={curtainRef}
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center shadow-2xl"
           style={{
             background:
-              "linear-gradient(180deg, rgba(255,255,255,0.4), transparent)",
+              "radial-gradient(ellipse at 30% 40%, rgba(122,26,46,0.95) 0%, rgba(44,16,10,1) 80%), radial-gradient(ellipse at 70% 60%, rgba(74,44,94,0.4) 0%, transparent 60%)",
+            backgroundColor: "#2c100a",
           }}
-        />
+        >
+          {/* Efeito de Ruído/Grão (Noise) sobre o degradê vinho */}
+          <div
+            className="absolute inset-0 z-0 pointer-events-none opacity-[0.25] mix-blend-overlay"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            }}
+          />
+
+          <div ref={quoteTextRef} className="relative z-10 max-w-[800px]">
+            <h2 className="font-display text-[clamp(2.2rem,6vw,4rem)] font-medium leading-[1.2] mb-6 text-[#f5ece4] drop-shadow-lg">
+              &quot;Depois do medo,
+              <br />
+              vem o mundo.&quot;
+            </h2>
+            <p className="font-body text-xl md:text-2xl text-white/80 italic font-light tracking-wider">
+              — Clarice Lispector
+            </p>
+          </div>
+
+          <div
+            ref={indicatorRef}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3 text-white/60 font-mono text-[0.65rem] tracking-[0.2em] uppercase animate-float-down"
+          >
+            <span>Desvendar</span>
+            <div className="w-px h-12 bg-gradient-to-b from-white/50 to-transparent" />
+          </div>
+        </div>
       </div>
     </section>
   );
 }
-
-// "use client";
-
-// import { useEffect, useRef } from "react";
-// import { gsap } from "gsap";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
-// // import Background from "next/bg-hero";
-
-// gsap.registerPlugin(ScrollTrigger);
-
-// export default function Hero() {
-//   const heroRef = useRef<HTMLElement>(null);
-//   const overlayRef = useRef<HTMLDivElement>(null);
-//   const videoRef = useRef<HTMLVideoElement>(null);
-//   const contentRef = useRef<HTMLDivElement>(null);
-//   const indicatorRef = useRef<HTMLDivElement>(null);
-//   const badgeRef = useRef<HTMLSpanElement>(null);
-//   const h1Ref = useRef<HTMLHeadingElement>(null);
-//   const subRef = useRef<HTMLParagraphElement>(null);
-//   const ctaRef = useRef<HTMLDivElement>(null);
-
-//   useEffect(() => {
-//     const ctx = gsap.context(() => {
-//       // Entrance animations
-//       gsap.fromTo(
-//         h1Ref.current,
-//         { opacity: 0, y: 30 },
-//         { opacity: 1, y: 0, duration: 1.2, delay: 0.6, ease: "power2.out" },
-//       );
-//       gsap.fromTo(
-//         subRef.current,
-//         { opacity: 0, y: 20 },
-//         { opacity: 1, y: 0, duration: 1, delay: 0.9, ease: "power2.out" },
-//       );
-//       gsap.fromTo(
-//         ctaRef.current,
-//         { opacity: 0, y: 20 },
-//         { opacity: 1, y: 0, duration: 1, delay: 1.1, ease: "power2.out" },
-//       );
-
-//       // Scroll parallax: darken + blur video, fade content
-//       gsap.to(heroRef.current, {
-//         scrollTrigger: {
-//           trigger: heroRef.current,
-//           start: "top top",
-//           end: "bottom top",
-//           scrub: 1.2,
-//           onUpdate: (self) => {
-//             const p = self.progress;
-//             if (overlayRef.current) {
-//               overlayRef.current.style.opacity = String(1 + p * 0.6);
-//             }
-//             if (videoRef.current) {
-//               videoRef.current.style.filter = `brightness(${0.65 - p * 0.3}) saturate(${0.9 - p * 0.2})`;
-//             }
-//             if (contentRef.current) {
-//               contentRef.current.style.opacity = String(1 - p * 0.8);
-//               contentRef.current.style.transform = `translateY(${p * 40}px)`;
-//             }
-//             if (indicatorRef.current) {
-//               indicatorRef.current.style.opacity = String(1 - p * 1.5);
-//             }
-//           },
-//         },
-//       });
-//     }, heroRef);
-
-//     return () => ctx.revert();
-//   }, []);
-
-//   return (
-//     <section
-//       id="hero"
-//       ref={heroRef}
-//       className="relative w-full h-screen min-h-[700px] overflow-hidden flex items-center justify-center bg-primary-dark"
-//     >
-//       {/* Video background */}
-//       <video
-//         ref={videoRef}
-//         id="hero-video"
-//         autoPlay
-//         muted
-//         loop
-//         playsInline
-//         className="absolute inset-0 w-full h-full object-cover z-0"
-//         style={{ filter: "brightness(0.65) saturate(0.9)" }}
-//         poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='800' viewBox='0 0 1200 800'%3E%3Crect width='1200' height='800' fill='%237A1A2E'/%3E%3Ccircle cx='400' cy='300' r='200' fill='%239C2A42' opacity='0.3'/%3E%3Ccircle cx='800' cy='500' r='250' fill='%234A2C5E' opacity='0.2'/%3E%3C/svg%3E"
-//       >
-//         <source
-//           src="https://cdn.pixabay.com/video/2024/02/12/199728-909933160_large.mp4"
-//           type="video/mp4"
-//         />
-//       </video>
-
-//       {/* Fallback gradient */}
-//       <div
-//         className="absolute inset-0 z-[1] pointer-events-none"
-//         style={{
-//           background:
-//             "radial-gradient(ellipse at 30% 40%, rgba(122,26,46,0.6) 0%, rgba(44,16,10,0.85) 70%), radial-gradient(ellipse at 70% 60%, rgba(74,44,94,0.3) 0%, transparent 60%)",
-//         }}
-//       />
-
-//       {/* Overlay */}
-//       <div
-//         ref={overlayRef}
-//         className="absolute inset-0 z-[2] pointer-events-none"
-//         style={{
-//           background:
-//             "linear-gradient(180deg, rgba(44,16,10,0.3) 0%, rgba(44,16,10,0.6) 50%, rgba(44,16,10,0.85) 100%)",
-//         }}
-//       />
-
-//       {/* Content */}
-//       <div
-//         ref={contentRef}
-//         className="relative z-[3] max-w-[820px] px-6 text-center text-white opacity-0"
-//       >
-//         <span
-//           ref={badgeRef}
-//           className="font-mono text-[0.7rem] tracking-[0.25em] uppercase text-white/60 mb-5 inline-block border border-white/15 py-1.5 px-4 rounded-[60px] backdrop-blur-sm"
-//         >
-//           ✦ Ateliê-Clínico
-//         </span>
-
-//         <h1
-//           ref={h1Ref}
-//           className="font-display text-[clamp(2.8rem,8vw,5.4rem)] font-semibold leading-[1.08] mb-[18px] tracking-[-0.02em] opacity-0"
-//         >
-//           Desbordar
-//           <br />
-//           <span className="italic text-[#f0c8b0]">Afetos</span>
-//         </h1>
-
-//         <p
-//           ref={subRef}
-//           className="font-body text-[clamp(1rem,1.5vw,1.35rem)] opacity-0 max-w-[560px] mx-auto mb-8 leading-[1.7] font-light"
-//         >
-//           Onde a psicologia e a arte se entrelaçam para acolher,
-//           <br />
-//           refletir e transformar.
-//         </p>
-
-//         <div
-//           ref={ctaRef}
-//           className="flex flex-wrap gap-4 justify-center opacity-0"
-//         >
-//           <a
-//             href="#invitation"
-//             className="inline-block font-body font-medium text-[0.95rem] py-[14px] px-9 rounded-[60px] cursor-pointer no-underline tracking-[0.02em] transition-all duration-300 bg-white text-primary-dark shadow-[0_8px_32px_rgba(0,0,0,0.2)] hover:bg-acolhimento hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(0,0,0,0.3)]"
-//           >
-//             Iniciar jornada
-//           </a>
-//           <a
-//             href="#about"
-//             className="inline-block font-body font-light text-[0.95rem] py-[14px] px-9 bg-transparent text-white border border-white/40 rounded-[60px] cursor-pointer no-underline tracking-[0.02em] transition-all duration-300 backdrop-blur-sm hover:bg-white/12 hover:border-white/70 hover:-translate-y-0.5"
-//           >
-//             Conhecer mais
-//           </a>
-//         </div>
-//       </div>
-
-//       {/* Scroll indicator */}
-//       <div
-//         ref={indicatorRef}
-//         className="absolute bottom-9 left-1/2 z-[3] flex flex-col items-center gap-2 text-white/40 font-mono text-[0.6rem] tracking-[0.15em] uppercase animate-float-down"
-//         style={{ transform: "translateX(-50%)" }}
-//       >
-//         <span>Rolar</span>
-//         <div
-//           className="w-px h-10"
-//           style={{
-//             background:
-//               "linear-gradient(180deg, rgba(255,255,255,0.4), transparent)",
-//           }}
-//         />
-//       </div>
-//     </section>
-//   );
-// }
