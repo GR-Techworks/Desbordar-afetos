@@ -9,22 +9,22 @@ gsap.registerPlugin(ScrollTrigger);
 const pillars = [
   {
     icon: "🧵",
-    title: "Bordado terapêutico",
+    title: "Escuta artesanal",
     desc: "Ponto a ponto, o bordado ensina presença e paciência — e cria espaço para que os afetos tomem forma.",
   },
   {
     icon: "🎨",
-    title: "Pintura e cor",
+    title: "Fazer à mão",
     desc: "As cores dizem o que as palavras ainda não encontraram. Pintar é também uma forma de se ouvir.",
   },
   {
     icon: "🪡",
-    title: "Arte têxtil",
+    title: "Tempo",
     desc: "Tecer, remendar, sobrepor — metáforas vivas para os processos de reconstrução que atravessamos.",
   },
   {
     icon: "✂️",
-    title: "Processos criativos",
+    title: "Vínculo",
     desc: "Colagem, escrita, fotografia. Cada pessoa encontra a linguagem que mais fala de si mesma.",
   },
 ];
@@ -87,12 +87,11 @@ export default function Expression() {
               A interseção
             </span>
             <h2 className="expression-text-item section-title opacity-0">
-              A psicologia e a <span className="highlight">arte</span>
+              E quando a <span className="highlight">arte</span> encontra a{" "}
+              <span className="highlight">psicologia</span>?
             </h2>
             <p className="expression-text-item section-subtitle opacity-0">
-              A expressão artística acessa o que a fala, sozinha, não alcança.
-              No Desbordar Afetos, criar é também uma forma de conhecer — e de
-              ressignificar — a própria história.
+              Uma clínica artesanal, feita à mão, com tempo, vínculo e cuidado.
             </p>
 
             <div className="grid grid-cols-2 gap-5 mt-6 max-[480px]:grid-cols-1">

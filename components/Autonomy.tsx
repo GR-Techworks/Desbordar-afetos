@@ -105,13 +105,15 @@ export default function Autonomy() {
               Abordagem clínica
             </span>
             <h2 className="autonomy-text-item section-title opacity-0">
-              Minha forma de <span className="highlight">compreender</span> a
-              clínica
+              Sobre <span className="highlight">mim</span>
             </h2>
             <p className="autonomy-text-item text-muted-text text-[1.05rem] leading-[1.8] mb-4 opacity-0">
-              Minha prática é atravessada pela Psicologia Histórico-Cultural —
-              uma perspectiva que entende a subjetividade como algo que se
-              constrói na relação: entre pessoas, entre afetos, entre histórias.
+              Sou Ana Clara Reis, psicóloga (CRP 04/81276), formada pelo Centro
+              Universitário Academia (UniAcademia), pós-graduada em Psicologia
+              Social e Comunidades e pós-graduanda em Psicologia Clínica
+              Histórico-Cultural. Acredito que esse é um espaço onde histórias
+              podem ser compreendidas, sentidos podem ser recriados e novas
+              possibilidades de existir podem ser construídas.
             </p>
             <p className="autonomy-text-item text-muted-text text-[1.05rem] leading-[1.8] mb-4 opacity-0">
               Não acredito em neutralidade clínica. Acredito em presença real,
