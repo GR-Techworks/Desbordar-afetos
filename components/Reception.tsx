@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 //   1. Ruído fractal SVG   → irregularidade natural do fio
 //   2. Trama horizontal    → fios da urdidura
 //   3. Trama vertical      → fios da trama
-const COTTON_BG: React.CSSProperties = {
+export const COTTON_BG: React.CSSProperties = {
   backgroundColor: "#f0e6d2",
   backgroundImage: [
     "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.11'/%3E%3C/svg%3E\")",

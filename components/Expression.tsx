@@ -8,22 +8,22 @@ gsap.registerPlugin(ScrollTrigger);
 
 const pillars = [
   {
-    icon: "🧵",
+    icon: "/wooden-spool-icon.png",
     title: "Escuta artesanal",
     desc: "Ponto a ponto, o bordado ensina presença e paciência — e cria espaço para que os afetos tomem forma.",
   },
   {
-    icon: "🎨",
+    icon: "/paint-palette-icon.png",
     title: "Fazer à mão",
     desc: "As cores dizem o que as palavras ainda não encontraram. Pintar é também uma forma de se ouvir.",
   },
   {
-    icon: "🪡",
+    icon: "/sewing-icon.png",
     title: "Tempo",
     desc: "Tecer, remendar, sobrepor — metáforas vivas para os processos de reconstrução que atravessamos.",
   },
   {
-    icon: "✂️",
+    icon: "/craft-scissors-icon.png",
     title: "Vínculo",
     desc: "Colagem, escrita, fotografia. Cada pessoa encontra a linguagem que mais fala de si mesma.",
   },
@@ -84,23 +84,26 @@ export default function Expression() {
           {/* Texto + pilares */}
           <div>
             <span className="expression-text-item section-label opacity-0">
-              A interseção
+              Uma clínica artesanal, feita à mão, com tempo, vínculo e cuidado.
             </span>
             <h2 className="expression-text-item section-title opacity-0">
               E quando a <span className="highlight">arte</span> encontra a{" "}
               <span className="highlight">psicologia</span>?
             </h2>
-            <p className="expression-text-item section-subtitle opacity-0">
-              Uma clínica artesanal, feita à mão, com tempo, vínculo e cuidado.
-            </p>
 
-            <div className="grid grid-cols-2 gap-5 mt-6 max-[480px]:grid-cols-1">
+            <div className="grid grid-cols-2 gap-5 mt-8 max-[480px]:grid-cols-1">
               {pillars.map((p) => (
                 <div
                   key={p.title}
-                  className="pillar-item bg-white p-6 rounded-2xl shadow-[0_4px_20px_rgba(44,16,10,0.04)] border border-primary/[0.06] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(44,16,10,0.06)] opacity-0"
+                  className="pillar-item bg-white p-6 rounded-2xl shadow-[0_4px_20px_rgba(44,16,10,0.04)] border border-primary/[0.06] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(44,16,10,0.06)] opacity-0 flex flex-col items-start"
                 >
-                  <span className="text-[1.8rem] mb-2 block">{p.icon}</span>
+                  <div className="w-12 h-12 mb-3 flex items-center justify-start">
+                    <img
+                      src={p.icon}
+                      alt={p.title}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
                   <h4 className="font-display text-[1rem] font-semibold mb-1 text-soft-text">
                     {p.title}
                   </h4>
@@ -113,7 +116,7 @@ export default function Expression() {
           </div>
 
           {/* Visual */}
-          <div className="expression-visual relative rounded-2xl overflow-hidden bg-acolhimento aspect-[4/5] shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0">
+          <div className="expression-visual relative rounded-2xl overflow-hidden h-full bg-acolhimento aspect-[4/5] shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0">
             <img
               src="/foto-arte-psicologia.jpg"
               alt="Arte e psicologia em sintonia"

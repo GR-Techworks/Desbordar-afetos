@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ThreadProgress from "@/components/ThreadProgress";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { COTTON_BG } from "@/components/Reception";
 import WaveDivider from "@/components/WaveDivider";
 
 // Sections
@@ -40,11 +41,35 @@ export default function Home() {
         <Connection />
       </div>
 
+      {/* 
+      <div
+        className="w-full h-32"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(139, 103, 60, 0.16), transparent 100%)",
+          marginTop: "8rem", // Puxa a recepção para cima do degradê
+          position: "relative",
+          zIndex: 10,
+        }}
+      />
+      */}
+
       <div id="reception">
         <Reception />
       </div>
 
-      <WaveDivider from={C.cotton} to={C.blushLight} height={70} />
+      {/* 
+      <div
+        className="w-full h-32"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(139, 103, 60, 0.16), transparent 100%)",
+          marginBottom: "-8rem", // Puxa a recepção para debaixo do degradê
+          position: "relative",
+          zIndex: 10,
+        }}
+      />
+      */}
 
       <div id="expression">
         <Expression />

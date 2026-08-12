@@ -1,23 +1,16 @@
 /**
  * WaveDivider — transição orgânica entre seções.
- *
- * Uso em page.tsx:
- *   <WaveDivider from="#1a0a08" to="#f0e6d2" />
- *
- * Props:
- *   from  → cor da seção ACIMA  (ex: cor de fundo do Hero)
- *   to    → cor da seção ABAIXO (ex: cor de fundo da Reception)
- *   flip  → inverte verticalmente (para usar a onda de cabeça pra baixo)
- *   height → altura em px da zona de transição (padrão 80)
  */
 export default function WaveDivider({
   from,
   to,
+  toStyle, // Nova propriedade para receber texturas/gradientes em CSS
   flip = false,
   height = 80,
 }: {
   from: string;
-  to: string;
+  to?: string;
+  toStyle?: React.CSSProperties;
   flip?: boolean;
   height?: number;
 }) {
@@ -25,12 +18,11 @@ export default function WaveDivider({
     <div
       aria-hidden="true"
       style={{
-        backgroundColor: from,     // cor que "fica atrás"
+        // O pulo do gato: aplica a textura complexa no fundo da div!
+        ...(toStyle || { backgroundColor: to }),
         lineHeight: 0,
         display: "block",
         overflow: "hidden",
-        // ocupa espaço próprio — não usa margin negativo
-        // para evitar conflitos com z-index das seções
       }}
     >
       <svg
@@ -41,19 +33,17 @@ export default function WaveDivider({
         style={{ display: "block", transform: flip ? "scaleY(-1)" : "none" }}
       >
         {/*
-          Onda dupla para suavizar a transição:
-          — camada de fundo mais suave (opacidade média)
-          — camada principal sólida por cima
-          O efeito final é parecido com tinta absorvida por tecido.
+          INVERTIDO: Agora o SVG desenha de CIMA para BAIXO.
+          Ele usa a cor sólida da seção superior ('from') e deixa a textura inferior ('toStyle') aparecer no recorte.
         */}
         <path
-          d="M0 50 C 180 15, 360 70, 540 40 S 900 5, 1080 45 S 1300 70, 1440 30 L1440 80 L0 80 Z"
-          fill={to}
+          d="M0 62 C 200 28, 400 72, 620 48 S 960 18, 1160 55 S 1350 72, 1440 44 L1440 0 L0 0 Z"
+          fill={from}
           opacity="0.45"
         />
         <path
-          d="M0 62 C 200 28, 400 72, 620 48 S 960 18, 1160 55 S 1350 72, 1440 44 L1440 80 L0 80 Z"
-          fill={to}
+          d="M0 50 C 180 15, 360 70, 540 40 S 900 5, 1080 45 S 1300 70, 1440 30 L1440 0 L0 0 Z"
+          fill={from}
         />
       </svg>
     </div>

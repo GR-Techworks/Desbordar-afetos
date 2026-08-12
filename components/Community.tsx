@@ -90,15 +90,12 @@ export default function Connection() {
           {/* Texto */}
           <div className="flex flex-col gap-0 mt-8 md:mt-0">
             <span className="connection-text-item section-label opacity-0">
-              Psicologia Histórico-Cultural
+              Um espaço para compartilhar experiências, criar vínculos e
+              caminhar em companhia.
             </span>
             <h2 className="connection-text-item section-title opacity-0">
               Tecer em <span className="highlight">companhia</span>
             </h2>
-            <p className="connection-text-item text-muted-text mb-4 text-[1.05rem] leading-[1.8] opacity-0">
-              Um espaço para compartilhar experiências, criar vínculos e
-              caminhar em companhia.
-            </p>
             <p className="connection-text-item text-muted-text mb-4 text-[1.05rem] leading-[1.8] opacity-0">
               Há linhas que só conseguimos enxergar quando outra pessoa segura a
               outra ponta do tecido. A Comunidade Desbordar Afetos nasce desse

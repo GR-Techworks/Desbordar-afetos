@@ -83,7 +83,7 @@ export default function ThreadProgress({
 
     // Empurra o primeiro ponto um pouco pra baixo e o último um pouco pra
     // cima, só para não colarem nas pontas do fio (topo/base da tela).
-    const EDGE_INSET = 0.03; // 3% do percurso — ajuste ao gosto
+    const EDGE_INSET = 0.04; // 3% do percurso — ajuste ao gosto
     if (measured.length > 0) {
       const first = measured[0];
       const adjustedFirst = Math.min(

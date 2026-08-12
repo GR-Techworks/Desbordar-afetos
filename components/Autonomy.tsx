@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -52,6 +52,8 @@ const benefits = [
 
 export default function Autonomy() {
   const sectionRef = useRef<HTMLElement>(null);
+  const expandableRef = useRef<HTMLDivElement>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -76,33 +78,16 @@ export default function Autonomy() {
       );
 
       gsap.fromTo(
-        ".pillar-item",
+        ".pillar-item-visible",
         { opacity: 0, x: -20 },
         {
           opacity: 1,
           x: 0,
-          stagger: 0.15,
           duration: 0.7,
           ease: "power2.out",
           scrollTrigger: {
             trigger: ".pillars-block",
             start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        },
-      );
-
-      gsap.fromTo(
-        ".closing-line",
-        { opacity: 0, y: 16 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".closing-line",
-            start: "top 90%",
             toggleActions: "play none none reverse",
           },
         },
@@ -128,6 +113,30 @@ export default function Autonomy() {
 
     return () => ctx.revert();
   }, []);
+
+  const toggleExpand = () => {
+    if (!expandableRef.current) return;
+
+    if (!isExpanded) {
+      gsap.to(expandableRef.current, {
+        height: "auto",
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out",
+        onComplete: () => ScrollTrigger.refresh(),
+      });
+    } else {
+      gsap.to(expandableRef.current, {
+        height: 0,
+        opacity: 0,
+        duration: 0.4,
+        ease: "power2.inOut",
+        onComplete: () => ScrollTrigger.refresh(),
+      });
+    }
+
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <section
@@ -178,60 +187,98 @@ export default function Autonomy() {
 
             {/* Pilares */}
             <div className="pillars-block flex flex-col gap-0">
-              {pillars.map((p, i) => (
-                <div
-                  key={p.word}
-                  className="pillar-item opacity-0 flex gap-5 items-start py-5 border-b border-primary/[0.07] last:border-b-0"
-                >
-                  {/* Barra lateral colorida + símbolo */}
-                  <div className="flex flex-col items-center gap-1 pt-0.5 shrink-0">
-                    <span
-                      className="text-[1.1rem] leading-none"
-                      style={{ color: p.accent }}
-                    >
-                      {p.symbol}
-                    </span>
-                    {i < pillars.length - 1 && (
-                      <div
-                        className="w-px flex-1 mt-2"
-                        style={{
-                          height: "100%",
-                          minHeight: "32px",
-                          background: `linear-gradient(to bottom, ${p.accent}40, transparent)`,
-                        }}
-                      />
-                    )}
-                  </div>
-
-                  <div>
-                    <span
-                      className="font-display text-[1.05rem] font-semibold italic block mb-1"
-                      style={{ color: p.accent }}
-                    >
-                      {p.word}
-                    </span>
-                    <p className="text-muted-text text-[0.93rem] leading-[1.75]">
-                      {p.desc}
-                    </p>
-                  </div>
+              {/* Pilar Visível: Ético */}
+              <div className="pillar-item-visible opacity-0 flex gap-5 items-start py-5 border-b border-primary/[0.07]">
+                <div className="flex flex-col items-center gap-1 pt-0.5 shrink-0">
+                  <span
+                    className="text-[1.1rem] leading-none"
+                    style={{ color: pillars[0].accent }}
+                  >
+                    {pillars[0].symbol}
+                  </span>
                 </div>
-              ))}
+
+                <div>
+                  <span
+                    className="font-display text-[1.05rem] font-semibold italic block mb-1"
+                    style={{ color: pillars[0].accent }}
+                  >
+                    {pillars[0].word}
+                  </span>
+                  <p className="text-muted-text text-[0.93rem] leading-[1.75]">
+                    {pillars[0].desc}
+                  </p>
+                </div>
+              </div>
+
+              {/* Conteúdo Oculto Expandível (Político, Estético e Linha de Fechamento) */}
+              <div
+                ref={expandableRef}
+                className="h-0 opacity-0 overflow-hidden transition-none"
+              >
+                {pillars.slice(1).map((p) => (
+                  <div
+                    key={p.word}
+                    className="flex gap-5 items-start py-5 border-b border-primary/[0.07]"
+                  >
+                    <div className="flex flex-col items-center gap-1 pt-0.5 shrink-0">
+                      <span
+                        className="text-[1.1rem] leading-none"
+                        style={{ color: p.accent }}
+                      >
+                        {p.symbol}
+                      </span>
+                    </div>
+
+                    <div>
+                      <span
+                        className="font-display text-[1.05rem] font-semibold italic block mb-1"
+                        style={{ color: p.accent }}
+                      >
+                        {p.word}
+                      </span>
+                      <p className="text-muted-text text-[0.93rem] leading-[1.75]">
+                        {p.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Linha de fechamento */}
+                <div className="mt-6 mb-2 pl-5 border-l-2 border-primary/20">
+                  <p className="text-muted-text text-[0.97rem] leading-[1.8]">
+                    É desse lugar que construo a comunidade{" "}
+                    <strong className="text-soft-text font-semibold">
+                      Desbordar Afetos
+                    </strong>
+                    : uma prática comprometida com a ampliação da
+                    autoconsciência, da autonomia e da criação de novos sentidos
+                    para a própria história.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            {/* Linha de fechamento */}
-            <div className="closing-line opacity-0 mt-8 pl-5 border-l-2 border-primary/20">
-              <p className="text-muted-text text-[0.97rem] leading-[1.8]">
-                É desse lugar que construo a comunidade{" "}
-                <strong className="text-soft-text font-semibold">
-                  Desbordar Afetos
-                </strong>
-                : uma prática comprometida com a ampliação da autoconsciência,
-                da autonomia e da criação de novos sentidos para a própria
-                história.
-              </p>
+            {/* Botão Ler Mais / Ler Menos */}
+            <div className="my-5">
+              <button
+                onClick={toggleExpand}
+                type="button"
+                className="group inline-flex items-center gap-2 font-mono text-[0.8rem] uppercase tracking-[0.15em] text-primary hover:text-primary-dark transition-colors duration-300 cursor-pointer bg-transparent border-none p-0 focus:outline-none"
+              >
+                <span>{isExpanded ? "Ler menos" : "Ler mais"}</span>
+                <span
+                  className={`text-[0.9rem] transition-transform duration-300 ${
+                    isExpanded ? "rotate-180" : "rotate-0"
+                  }`}
+                >
+                  ↓
+                </span>
+              </button>
             </div>
 
-            <div className="autonomy-text-item font-display text-[1.2rem] italic text-primary pt-5 pb-2 border-t-2 border-primary/[0.08] mt-8 opacity-0">
+            {/* Citação Pessoal */}
+            <div className="autonomy-text-item font-display text-[1.2rem] italic text-primary pt-5 pb-2 border-t-2 border-primary/[0.08] mt-6 opacity-0">
               &ldquo;A arte nos ensina que o que desborda pode ser transformado
               em beleza.&rdquo;
             </div>
