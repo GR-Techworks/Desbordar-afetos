@@ -45,21 +45,30 @@ const navLinks: NavItem[] = [
 export default function Header() {
   // Estados Gerais
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrollingUp, setIsScrollingUp] = useState(false);
   const lastScrollY = useRef(0);
 
   // Estados Mobile
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileVisible, setIsMobileVisible] = useState(false);
 
-  // Estado Desktop
+  // Estados Desktop
   const [isDesktopExpanded, setIsDesktopExpanded] = useState(false);
+  const [isPastConnection, setIsPastConnection] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
+      // Direção do Scroll
+      if (currentScrollY < lastScrollY.current) {
+        setIsScrollingUp(true);
+      } else if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+        setIsScrollingUp(false);
+        // NOTA: Não alteramos isDesktopExpanded aqui para não fechar o menu se o usuário tiver expandido manualmente.
+      }
+
       // === LÓGICA MOBILE ===
-      // Funciona exatamente como antes: esconde descendo, aparece subindo
       if (currentScrollY <= 10) {
         setIsMobileVisible(false);
       } else if (currentScrollY < lastScrollY.current) {
@@ -68,17 +77,15 @@ export default function Header() {
         setIsMobileVisible(false);
       }
 
-      // === LÓGICA DESKTOP ===
-      // Define se passamos do topo da página
       setIsScrolled(currentScrollY > 50);
 
-      // Recolhe automaticamente o menu expandido no desktop se o usuário voltar a rolar a página
-      if (
-        isDesktopExpanded &&
-        Math.abs(currentScrollY - lastScrollY.current) > 50
-      ) {
-        setIsDesktopExpanded(false);
-      }
+      // === LÓGICA DESKTOP (Exibir apenas após a seção "connection") ===
+      const connectionSection = document.getElementById("connection");
+      const threshold = connectionSection
+        ? connectionSection.offsetTop - 150
+        : window.innerHeight * 0.7;
+
+      setIsPastConnection(currentScrollY > threshold);
 
       lastScrollY.current = currentScrollY;
     };
@@ -87,29 +94,41 @@ export default function Header() {
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isDesktopExpanded]);
+  }, []);
 
   const closeMenu = () => setIsMobileMenuOpen(false);
-  const isPillMode = isScrolled && !isDesktopExpanded;
+  const isPillMode = !isDesktopExpanded;
 
   return (
     <>
       {/* 
         =========================================
-        🌟 DESKTOP HEADER (Expandível para os lados)
+        🌟 DESKTOP HEADER
         =========================================
       */}
-      <div className="hidden md:flex fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500">
+      <div
+        className={`hidden md:flex fixed top-0 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-in-out ${
+          !isPastConnection
+            ? "-translate-y-[200%] opacity-0 pointer-events-none" // Antes de chegar na seção connection
+            : isDesktopExpanded
+              ? "translate-y-4 opacity-100 pointer-events-auto" // Se o usuário expandiu, FICA EXPANDIDO fixo na tela
+              : isScrollingUp
+                ? "translate-y-4 opacity-100 pointer-events-auto" // Rolando pra cima (contraído): exibe a pílula
+                : "-translate-y-[calc(100%-8px)] opacity-90 hover:translate-y-1 pointer-events-auto cursor-pointer" // Rolando pra baixo (contraído): deixa bordinha
+        }`}
+        onClick={() => {
+          // Se estiver apenas em bordinha e o usuário clicar, traz a pílula para a tela
+          if (!isScrollingUp && !isDesktopExpanded) {
+            setIsScrollingUp(true);
+          }
+        }}
+      >
         <div
-          className={`flex items-center bg-white/70 backdrop-blur-md border border-white/40 rounded-full shadow-lg p-2 transition-all duration-700 ease-in-out ${
+          className={`flex items-center bg-white/80 backdrop-blur-md border border-white/40 rounded-full shadow-lg p-2 transition-all duration-500 ease-in-out ${
             isPillMode
-              ? "max-w-[115px] overflow-hidden cursor-pointer hover:bg-white/90 hover:scale-105"
+              ? "max-w-[150px] overflow-hidden"
               : "max-w-[1000px] cursor-default"
           }`}
-          onClick={() => {
-            if (isPillMode) setIsDesktopExpanded(true);
-          }}
-          title={isPillMode ? "Abrir menu" : ""}
         >
           {/* Avatar & Nome */}
           <Link
@@ -117,7 +136,8 @@ export default function Header() {
             className="flex-shrink-0 flex items-center gap-3 cursor-pointer pl-1"
             onClick={(e) => {
               if (isPillMode) {
-                e.preventDefault(); // Impede de subir pro topo ao clicar para expandir
+                e.preventDefault();
+                setIsDesktopExpanded(true);
               }
             }}
           >
@@ -139,14 +159,13 @@ export default function Header() {
 
           {/* Nav Links */}
           <nav
-            className={`flex items-center transition-all duration-700 ease-in-out overflow-hidden ${
+            className={`flex items-center transition-all duration-500 ease-in-out overflow-hidden ${
               isPillMode
                 ? "max-w-0 opacity-0 gap-0 pointer-events-none"
                 : "max-w-[800px] opacity-100 gap-1 lg:gap-2 pointer-events-auto"
             }`}
           >
             {navLinks.map((link) => {
-              // Item com Dropdown
               if (link.dropdown) {
                 return (
                   <div key={link.name} className="relative group shrink-0">
@@ -186,7 +205,6 @@ export default function Header() {
                 );
               }
 
-              // Item simples
               return (
                 <Link
                   key={link.name}
@@ -204,19 +222,19 @@ export default function Header() {
               );
             })}
 
-            {/* Botão de Fechar o Menu (quando expandido pela rolagem) */}
-            {isScrolled && isDesktopExpanded && (
+            {/* Botão CONTRAIR (Exclusivo por clique do usuário) */}
+            {!isPillMode && (
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsDesktopExpanded(false);
                 }}
-                title="Recolher menu"
-                className="ml-2 p-1.5 rounded-full text-zinc-600 bg-white/40 hover:text-zinc-900 hover:bg-white/80 transition-colors shrink-0"
-                aria-label="Recolher menu"
+                title="Contrair menu"
+                className="ml-2 flex items-center justify-center w-8 h-8 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-700 transition-colors shrink-0 cursor-pointer"
+                aria-label="Contrair menu"
               >
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -232,32 +250,47 @@ export default function Header() {
             )}
           </nav>
 
-          {/* Hambúrguer Ícone (Aparece apenas quando compactado em pílula) */}
-          <div
-            className={`flex-shrink-0 flex flex-col justify-center items-center space-y-[4px] transition-all duration-700 overflow-hidden ${
-              isPillMode ? "w-10 opacity-100 ml-1" : "w-0 opacity-0 ml-0"
-            }`}
-          >
-            <span className="block w-[18px] h-[2px] bg-zinc-800 rounded-full"></span>
-            <span className="block w-[18px] h-[2px] bg-zinc-800 rounded-full"></span>
-            <span className="block w-[18px] h-[2px] bg-zinc-800 rounded-full"></span>
-          </div>
+          {/* Botão EXPANDIR (Exclusivo por clique do usuário) */}
+          {isPillMode && (
+            <div className="flex-shrink-0 ml-1">
+              <button
+                onClick={() => setIsDesktopExpanded(true)}
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-700 transition-colors cursor-pointer"
+                title="Expandir menu"
+                aria-label="Expandir menu"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 12h16M8 8l-4 4 4 4m8-8l4 4-4 4"
+                  />
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       {/* 
         =========================================
-        📱 MOBILE HEADER (Desce e sobe com scroll)
+        📱 MOBILE HEADER (Sem w-full, Drawer intacto)
         =========================================
       */}
       <header
-        className={`md:hidden fixed top-0 left-0 w-full z-50 p-4 transition-transform duration-500 ease-out ${
+        className={`md:hidden fixed top-0 right-0 z-50 p-4 transition-transform duration-500 ease-out ${
           isMobileVisible || isMobileMenuOpen
             ? "translate-y-0"
             : "-translate-y-full"
         }`}
       >
-        <div className="mx-auto flex items-center justify-between gap-1 w-full rounded-full bg-white/40 backdrop-blur-md border border-white/30 shadow-lg px-4 py-2 transition-colors duration-300 relative">
+        <div className="mx-auto flex items-center justify-between gap-3 rounded-full bg-white/40 backdrop-blur-md border border-white/30 shadow-lg px-4 py-2 transition-colors duration-300 relative">
           <Link href="#hero" className="flex items-center justify-center gap-3">
             <img
               src="/foto-ana.jpg"
@@ -266,39 +299,43 @@ export default function Header() {
             />
           </Link>
 
-          {/* Mobile Hamburguer Action */}
+          {/* Mobile Hamburguer / X Action */}
           <button
-            className="flex flex-col justify-center items-center w-8 h-8 space-y-1 focus:outline-none"
+            className="flex justify-center items-center w-9 h-9 focus:outline-none transition-transform active:scale-95"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
           >
-            <span
-              className={`block w-5 h-0.5 transition-all duration-300 ${
-                isMobileMenuOpen
-                  ? "rotate-45 translate-y-2 bg-zinc-900"
-                  : isScrolled
-                    ? "bg-zinc-900"
-                    : "bg-white"
-              }`}
-            />
-            <span
-              className={`block w-5 h-0.5 transition-all duration-300 ${
-                isMobileMenuOpen
-                  ? "opacity-0"
-                  : isScrolled
-                    ? "bg-zinc-900 opacity-100"
-                    : "bg-white opacity-100"
-              }`}
-            />
-            <span
-              className={`block w-5 h-0.5 transition-all duration-300 ${
-                isMobileMenuOpen
-                  ? "-rotate-45 -translate-y-2 bg-zinc-900"
-                  : isScrolled
-                    ? "bg-zinc-900"
-                    : "bg-white"
-              }`}
-            />
+            {isMobileMenuOpen ? (
+              <svg
+                className="w-6 h-6 text-zinc-900"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            ) : (
+              <svg
+                className={`w-6 h-6 transition-colors duration-300 ${
+                  isScrolled ? "text-zinc-900" : "text-white"
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            )}
           </button>
         </div>
       </header>

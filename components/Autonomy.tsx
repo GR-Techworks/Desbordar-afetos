@@ -27,29 +27,6 @@ const pillars = [
   },
 ];
 
-const benefits = [
-  {
-    icon: "🪞",
-    title: "Autoconhecimento",
-    desc: "Entender os próprios padrões, afetos e histórias — com curiosidade, não com julgamento.",
-  },
-  {
-    icon: "🌱",
-    title: "Expressão emocional",
-    desc: "Encontrar formas de nomear e dar forma ao que se sente, mesmo quando as palavras faltam.",
-  },
-  {
-    icon: "✨",
-    title: "Ressignificação",
-    desc: "Revisitar experiências difíceis e construir novos sentidos a partir delas.",
-  },
-  {
-    icon: "🦋",
-    title: "Autonomia",
-    desc: "Desenvolver uma relação mais autoral com a própria vida — escolhendo quem se quer ser.",
-  },
-];
-
 export default function Autonomy() {
   const sectionRef = useRef<HTMLElement>(null);
   const expandableRef = useRef<HTMLDivElement>(null);
@@ -285,31 +262,6 @@ export default function Autonomy() {
             <div className="autonomy-text-item font-mono text-[0.8rem] text-primary opacity-60 mt-1 opacity-0">
               Ana Clara Reis · Psicóloga · CRP 04/81276
             </div>
-          </div>
-        </div>
-
-        {/* — Benefícios — */}
-        <div className="mt-20 md:mt-28">
-          <div className="text-center mb-10">
-            <span className="section-label">
-              O que você pode encontrar aqui
-            </span>
-          </div>
-          <div className="benefits-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {benefits.map((b) => (
-              <div
-                key={b.title}
-                className="benefit-item opacity-0 bg-white p-7 rounded-[20px] border border-primary/[0.06] shadow-[0_4px_24px_rgba(44,16,10,0.03)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_48px_rgba(44,16,10,0.06)]"
-              >
-                <span className="text-[2rem] block mb-3">{b.icon}</span>
-                <h4 className="font-display text-[1.05rem] font-semibold mb-2 text-soft-text">
-                  {b.title}
-                </h4>
-                <p className="text-[0.88rem] text-muted-text leading-[1.6]">
-                  {b.desc}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </div>
