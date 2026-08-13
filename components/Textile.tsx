@@ -8,28 +8,31 @@ gsap.registerPlugin(ScrollTrigger);
 
 const articles = [
   {
+    image: "/substack-1.jpg",
     tag: "Substack",
-    title: "O que acontece quando damos forma ao que sentimos?",
+    title: "Quando a natureza, o cinema e o teatro nos ensinam sobre o luto",
     excerpt:
-      "Sobre a mediação artística como linguagem do processo terapêutico e como ela transforma o encontro clínico.",
-    year: "2025",
-    href: "#", // substituir pelo link real do Substack
+      "uma carta sobre a experiência de assistir Hamnet e sobre as muitas formas de continuar vivendo com a perda.",
+    date: "MAR, 2026",
+    href: "https://anaclarabrcontato.substack.com/p/10-quando-a-natureza-o-cinema-e-o",
   },
   {
-    tag: "Reflexão",
-    title: "Arte têxtil e saúde mental: o que o bordado pode nos ensinar",
+    image: "/substack-2.jpg",
+    tag: "Substack",
+    title: "A arquitetura da ferida",
     excerpt:
-      "Uma reflexão sobre como o gesto de bordar cria espaço para elaborar o que ainda não tem palavras — e por que a lentidão importa.",
-    year: "2025",
-    href: "#",
+      "a memória que permanece nas paredes, nos objetos, nas sombras e nas rachaduras da casa-corpo, mesmo quando não há grito nem espetáculo.",
+    date: "FEV, 2026",
+    href: "https://anaclarabrcontato.substack.com/p/9-a-arquitetura-da-ferida",
   },
   {
-    tag: "Pesquisa",
-    title: "Psicologia Histórico-Cultural e processos criativos",
+    image: "/substack-3.jpg",
+    tag: "Substack",
+    title: "Eu permaneço",
     excerpt:
-      "A subjetividade como construção relacional: notas sobre a interseção entre Vigotski e a prática clínica com arte.",
-    year: "2024",
-    href: "#",
+      "um texto sobre finalizar o ano e aprender a habitar o próprio voo.",
+    date: "DEZ, 2025",
+    href: "https://anaclarabrcontato.substack.com/p/8-eu-permaneco",
   },
 ];
 
@@ -105,11 +108,13 @@ export default function Textile() {
             Publicações
           </span>
           <h2 className="textile-header-item section-title opacity-0">
-            Pesquisas e <span className="highlight">escritos</span>
+            Escritas e <span className="highlight">pesquisas</span>
           </h2>
           <p className="textile-header-item section-subtitle centered mx-auto opacity-0">
-            Reflexões sobre psicologia, arte e o que acontece quando os dois se
-            encontram.
+            Entre a clínica, a arte e a pesquisa, algumas perguntas continuam
+            ecoando. Este é um espaço onde compartilho reflexões, ensaios,
+            escritos e percursos que seguem desdobrando aquilo que atravessa o
+            ateliê-clínico.
           </p>
         </div>
 
@@ -137,7 +142,7 @@ export default function Textile() {
           </div>
           <div className="flex-shrink-0 relative z-10">
             <a
-              href="#" /* substituir pelo link do Substack */
+              href="https://open.substack.com/pub/anaclarabrcontato?utm_source=share&utm_medium=android&r=1nnmvl"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block font-body font-medium text-[0.95rem] py-3.5 px-8 bg-white text-primary rounded-[60px] transition-all duration-300 hover:bg-acolhimento hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.15)] whitespace-nowrap"
@@ -155,41 +160,51 @@ export default function Textile() {
               href={a.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="article-card opacity-0 group block bg-white rounded-[20px] overflow-hidden border border-primary/[0.05] shadow-[0_4px_20px_rgba(44,16,10,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_48px_rgba(44,16,10,0.08)] no-underline"
+              className="article-card opacity-0 group flex flex-col bg-white rounded-[20px] overflow-hidden border border-primary/[0.05] shadow-[0_4px_20px_rgba(44,16,10,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_48px_rgba(44,16,10,0.08)] no-underline"
             >
-              {/* Faixa de cor no topo */}
-              <div className="h-1.5 bg-primary opacity-60 transition-opacity duration-300 group-hover:opacity-100" />
+              {/* Imagem da capa com zoom suave no hover */}
+              <div className="relative w-full h-[180px] overflow-hidden bg-primary/5">
+                <img
+                  src={a.image}
+                  alt={a.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
 
-              <div className="p-7">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono text-[0.68rem] tracking-[0.15em] uppercase text-primary/60 bg-primary/[0.06] px-3 py-1 rounded-full">
-                    {a.tag}
-                  </span>
-                  <span className="font-mono text-[0.72rem] text-muted-text">
-                    {a.year}
-                  </span>
+              <div className="p-7 flex flex-col flex-1 justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="font-mono text-[0.68rem] tracking-[0.15em] uppercase text-primary/60 bg-primary/[0.06] px-3 py-1 rounded-full">
+                      {a.tag}
+                    </span>
+                    <span className="font-mono text-[0.72rem] text-muted-text">
+                      {a.date}
+                    </span>
+                  </div>
+
+                  <h4 className="font-display text-[1.05rem] font-semibold leading-[1.35] text-soft-text mb-3 transition-colors duration-300 group-hover:text-primary">
+                    {a.title}
+                  </h4>
+
+                  <p className="text-[0.88rem] text-muted-text leading-[1.6] mb-5">
+                    {a.excerpt}
+                  </p>
                 </div>
 
-                <h4 className="font-display text-[1.05rem] font-semibold leading-[1.35] text-soft-text mb-3 transition-colors duration-300 group-hover:text-primary">
-                  {a.title}
-                </h4>
-
-                <p className="text-[0.88rem] text-muted-text leading-[1.6] mb-5">
-                  {a.excerpt}
-                </p>
-
-                <span className="font-body text-[0.85rem] text-primary border-b border-primary/30 pb-0.5 transition-all duration-300 group-hover:border-primary">
-                  Ler →
-                </span>
+                <div>
+                  <span className="font-body text-[0.85rem] text-primary border-b border-primary/30 pb-0.5 transition-all duration-300 group-hover:border-primary">
+                    Ler no Substack →
+                  </span>
+                </div>
               </div>
             </a>
           ))}
         </div>
 
-        {/* Link para ver mais */}
+        {/* Link para ver todos */}
         <div className="text-center mt-10">
           <a
-            href="#" /* link do Substack ou blog */
+            href="https://anaclarabrcontato.substack.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block font-body text-[0.9rem] text-muted-text hover:text-primary transition-colors duration-300"
