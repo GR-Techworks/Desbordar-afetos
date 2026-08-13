@@ -197,7 +197,7 @@ export default function Contact() {
         ref={sectionRef}
         className="py-[100px] md:py-[70px] bg-warm-beige relative"
       >
-        <div className="max-w-[1200px] mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6 mb-10">
           {/* Header */}
           <div className="text-center mb-12">
             <span className="contact-header-item section-label opacity-0 block mb-2 font-medium tracking-wider text-sm uppercase text-primary">

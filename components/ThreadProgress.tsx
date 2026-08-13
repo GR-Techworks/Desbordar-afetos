@@ -27,19 +27,6 @@ type Point = Section & {
   y: number; // position along the SVG path, viewBox coords (0–100)
 };
 
-/**
- * A fixed thread that draws down the left edge of the viewport as you scroll —
- * visualising progress as a running stitch rather than a generic progress bar.
- * A small needle dot rides the live tip of the thread.
- *
- * "Embroidery points" are plotted along the thread at each section's start.
- * The point nearest the current scroll position lights up and reveals a
- * badge with the section name; scrolling past it fades the badge back out.
- * Every point is clickable and scrolls the user straight to that section.
- *
- * Only visible on md+ screens (hidden on mobile where the rail would crowd the UI).
- * Fades in after the first ~1.5% of scroll and out near the very bottom.
- */
 export default function ThreadProgress({
   sections = DEFAULT_SECTIONS,
 }: {
@@ -50,68 +37,52 @@ export default function ThreadProgress({
   const dotRef = useRef<SVGCircleElement>(null);
 
   const [points, setPoints] = useState<Point[]>([]);
-  const pointsRef = useRef<Point[]>([]); // mirror of `points`, read inside the onUpdate closure
+  const pointsRef = useRef<Point[]>([]);
+
+  const maxScrollRef = useRef(1);
+  const viewportHeightRef = useRef(1);
+
   useEffect(() => {
     pointsRef.current = points;
   }, [points]);
 
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [activeDotId, setActiveDotId] = useState<string | null>(null);
+  const [activeBadgeId, setActiveBadgeId] = useState<string | null>(null);
 
-  // Recalculate where each section falls along the path. Needs to re-run on
-  // resize since responsive layout can shift section offsets significantly.
   const measurePoints = useCallback(() => {
     const path = pathRef.current;
     if (!path) return;
 
     const length = path.getTotalLength();
-    const maxScroll = Math.max(
-      document.documentElement.scrollHeight - window.innerHeight,
-      1,
-    );
+    const vh = window.innerHeight;
+    viewportHeightRef.current = vh;
+
+    const maxScroll = Math.max(document.documentElement.scrollHeight - vh, 1);
+    maxScrollRef.current = maxScroll;
 
     const measured = sections
-      .map((s) => {
+      .map((s, index) => {
         const el = document.getElementById(s.id);
         if (!el) return null;
-        const top = el.getBoundingClientRect().top + window.scrollY;
-        const progress = Math.min(Math.max(top / maxScroll, 0), 1);
+
+        const absoluteTop = el.getBoundingClientRect().top + window.scrollY;
+        const offset = vh * 0.35;
+        let targetScroll = absoluteTop - offset;
+
+        // Se for o primeiro ponto (hero), aplicamos uma folga extra para não colar no topo absoluto
+        if (s.id === "hero" || index === 0) {
+          targetScroll = vh * 0.15; // Joga o primeiro ponto um pouco mais para baixo
+        } else if (targetScroll < 0) {
+          targetScroll = 0;
+        }
+
+        const progress = Math.min(targetScroll / maxScroll, 1);
         const { x, y } = path.getPointAtLength(length * progress);
+
         return { ...s, progress, x, y };
       })
       .filter((p): p is Point => p !== null)
       .sort((a, b) => a.progress - b.progress);
-
-    // Empurra o primeiro ponto um pouco pra baixo e o último um pouco pra
-    // cima, só para não colarem nas pontas do fio (topo/base da tela).
-    const EDGE_INSET = 0.04; // 3% do percurso — ajuste ao gosto
-    if (measured.length > 0) {
-      const first = measured[0];
-      const adjustedFirst = Math.min(
-        first.progress + EDGE_INSET,
-        measured[1]?.progress ?? 1,
-      );
-      const firstPt = path.getPointAtLength(length * adjustedFirst);
-      measured[0] = {
-        ...first,
-        progress: adjustedFirst,
-        x: firstPt.x,
-        y: firstPt.y,
-      };
-
-      const lastIdx = measured.length - 1;
-      const last = measured[lastIdx];
-      const adjustedLast = Math.max(
-        last.progress - EDGE_INSET,
-        measured[lastIdx - 1]?.progress ?? 0,
-      );
-      const lastPt = path.getPointAtLength(length * adjustedLast);
-      measured[lastIdx] = {
-        ...last,
-        progress: adjustedLast,
-        x: lastPt.x,
-        y: lastPt.y,
-      };
-    }
 
     setPoints(measured);
   }, [sections]);
@@ -130,8 +101,7 @@ export default function ThreadProgress({
     });
 
     measurePoints();
-    // Layout can still shift after fonts/images finish loading, so measure
-    // again shortly after mount, plus on every resize (debounced).
+
     const settleTimeout = setTimeout(measurePoints, 300);
     let resizeTimeout: ReturnType<typeof setTimeout>;
     const onResize = () => {
@@ -155,19 +125,34 @@ export default function ThreadProgress({
 
           rail.style.opacity = p > 0.015 && p < 0.99 ? "1" : "0";
 
-          // Active section = last embroidery point whose start progress
-          // has been reached but whose *next* point hasn't been yet.
           const pts = pointsRef.current;
-          let current: string | null = null;
+          const maxScroll = maxScrollRef.current;
+          const vh = viewportHeightRef.current;
+
+          let currentDot: string | null = null;
+          let currentBadge: string | null = null;
+
+          const touchTolerance = 18 / vh;
+          const badgeDuration = 500 / maxScroll;
+
           for (let i = 0; i < pts.length; i++) {
-            const start = pts[i].progress;
-            const end = pts[i + 1]?.progress ?? 1;
+            const start = pts[i].progress - touchTolerance;
+            const end = pts[i + 1] ? pts[i + 1].progress - touchTolerance : 1.1;
+
             if (p >= start && p < end) {
-              current = pts[i].id;
-              break;
+              currentDot = pts[i].id;
+            }
+
+            const badgeStart = pts[i].progress - touchTolerance - 0.01;
+            const badgeEnd = pts[i].progress + badgeDuration;
+
+            if (p >= badgeStart && p <= badgeEnd) {
+              currentBadge = pts[i].id;
             }
           }
-          setActiveId((prev) => (prev === current ? prev : current));
+
+          setActiveDotId(currentDot);
+          setActiveBadgeId(currentBadge);
         },
       });
     });
@@ -183,8 +168,6 @@ export default function ThreadProgress({
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
-    // If there's a fixed header, add `scroll-margin-top` to the section
-    // wrappers in page.tsx so this lands below it.
     el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
@@ -224,33 +207,35 @@ export default function ThreadProgress({
 
       {/* Embroidery points — one per section, plus their name badges */}
       {points.map((point) => {
-        const isActive = activeId === point.id;
+        const isDotActive = activeDotId === point.id;
+        const isBadgeActive = activeBadgeId === point.id;
+
         return (
           <button
             key={point.id}
             type="button"
             onClick={() => scrollToSection(point.id)}
             aria-label={`Ir para a seção ${point.label}`}
-            aria-current={isActive ? "true" : undefined}
+            aria-current={isDotActive ? "true" : undefined}
             className="group pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 p-2"
             style={{
               left: `${(point.x / 20) * 100}%`,
               top: `${point.y}%`,
             }}
           >
-            {/* The stitch mark itself — always visible, grows when active */}
+            {/* The stitch mark itself — uses isDotActive */}
             <span
               className={`block rounded-full border transition-all duration-300 ${
-                isActive
+                isDotActive
                   ? "h-3 w-3 scale-110 border-[#7c070c] bg-[#7c070c]"
                   : "h-2 w-2 border-[#7c070c]/50 bg-[#fdf7f2] group-hover:scale-125 group-hover:border-[#7c070c]"
               }`}
             />
 
-            {/* Name badge — fades/slides in when this section is active or hovered */}
+            {/* Name badge — uses isBadgeActive, but always visible on hover */}
             <span
               className={`pointer-events-none absolute left-full top-1/2 ml-2 -translate-y-1/2 whitespace-nowrap rounded-full bg-[#7c070c] px-3 py-1 text-xs font-medium text-[#fdf7f2] shadow-md transition-all duration-500 ease-out ${
-                isActive
+                isBadgeActive
                   ? "translate-x-0 opacity-100"
                   : "-translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
               }`}

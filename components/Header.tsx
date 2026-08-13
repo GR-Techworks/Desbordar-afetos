@@ -65,7 +65,6 @@ export default function Header() {
         setIsScrollingUp(true);
       } else if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
         setIsScrollingUp(false);
-        // NOTA: Não alteramos isDesktopExpanded aqui para não fechar o menu se o usuário tiver expandido manualmente.
       }
 
       // === LÓGICA MOBILE ===
@@ -109,15 +108,14 @@ export default function Header() {
       <div
         className={`hidden md:flex fixed top-0 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-in-out ${
           !isPastConnection
-            ? "-translate-y-[200%] opacity-0 pointer-events-none" // Antes de chegar na seção connection
+            ? "-translate-y-[200%] opacity-0 pointer-events-none"
             : isDesktopExpanded
-              ? "translate-y-4 opacity-100 pointer-events-auto" // Se o usuário expandiu, FICA EXPANDIDO fixo na tela
+              ? "translate-y-4 opacity-100 pointer-events-auto"
               : isScrollingUp
-                ? "translate-y-4 opacity-100 pointer-events-auto" // Rolando pra cima (contraído): exibe a pílula
-                : "-translate-y-[calc(100%-8px)] opacity-90 hover:translate-y-1 pointer-events-auto cursor-pointer" // Rolando pra baixo (contraído): deixa bordinha
+                ? "translate-y-4 opacity-100 pointer-events-auto"
+                : "-translate-y-[calc(100%-8px)] opacity-90 hover:translate-y-1 pointer-events-auto cursor-pointer"
         }`}
         onClick={() => {
-          // Se estiver apenas em bordinha e o usuário clicar, traz a pílula para a tela
           if (!isScrollingUp && !isDesktopExpanded) {
             setIsScrollingUp(true);
           }
@@ -127,7 +125,7 @@ export default function Header() {
           className={`flex items-center bg-white/80 backdrop-blur-md border border-white/40 rounded-full shadow-lg p-2 transition-all duration-500 ease-in-out ${
             isPillMode
               ? "max-w-[150px] overflow-hidden"
-              : "max-w-[1000px] cursor-default"
+              : "max-w-[1000px] cursor-default overflow-visible"
           }`}
         >
           {/* Avatar & Nome */}
@@ -157,9 +155,9 @@ export default function Header() {
             </p>
           </Link>
 
-          {/* Nav Links */}
+          {/* Nav Links - Ajustado overflow-visible para permitir que o dropdown flutue */}
           <nav
-            className={`flex items-center transition-all duration-500 ease-in-out overflow-hidden ${
+            className={`flex items-center transition-all duration-500 ease-in-out overflow-visible ${
               isPillMode
                 ? "max-w-0 opacity-0 gap-0 pointer-events-none"
                 : "max-w-[800px] opacity-100 gap-1 lg:gap-2 pointer-events-auto"
@@ -186,7 +184,8 @@ export default function Header() {
                       </svg>
                     </button>
 
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 min-w-[200px]">
+                    {/* Dropdown Container corrigido com z-50 e visibilidade */}
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[99] min-w-[210px]">
                       <div className="bg-white/95 backdrop-blur-md border border-white/40 rounded-2xl shadow-xl p-2 flex flex-col gap-1">
                         {link.dropdown.map((subItem) => (
                           <a
@@ -194,7 +193,7 @@ export default function Header() {
                             href={subItem.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs font-medium text-zinc-800 hover:text-primary hover:bg-zinc-100/80 px-3 py-2 rounded-xl transition-colors text-left block whitespace-nowrap"
+                            className="text-xs font-medium text-zinc-800 hover:text-primary hover:bg-zinc-100/80 px-3 py-2.5 rounded-xl transition-colors text-left block whitespace-nowrap"
                           >
                             {subItem.name}
                           </a>
@@ -222,7 +221,7 @@ export default function Header() {
               );
             })}
 
-            {/* Botão CONTRAIR (Exclusivo por clique do usuário) */}
+            {/* Botão CONTRAIR */}
             {!isPillMode && (
               <button
                 onClick={(e) => {
@@ -250,7 +249,7 @@ export default function Header() {
             )}
           </nav>
 
-          {/* Botão EXPANDIR (Exclusivo por clique do usuário) */}
+          {/* Botão EXPANDIR */}
           {isPillMode && (
             <div className="flex-shrink-0 ml-1">
               <button
