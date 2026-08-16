@@ -17,7 +17,6 @@ const backgrounds = [
 export default function Hero() {
   const [activeBg, setActiveBg] = useState(0);
 
-  // Referências para o GSAP
   const wrapperRef = useRef<HTMLElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const quoteTextRef = useRef<HTMLDivElement>(null);
@@ -25,59 +24,128 @@ export default function Hero() {
   const indicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // 1. Animação de entrada da Citação (Fade In suave ao carregar a página)
-      gsap.fromTo(
-        quoteTextRef.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1.8, delay: 0.3, ease: "power3.out" },
-      );
+    // Respeita prefers-reduced-motion (acessibilidade)
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
-      // 2. Efeito "Cortina" atrelado ao Scroll
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: wrapperRef.current,
-          start: "top top", // Começa quando o topo do wrapper encosta no topo da tela
-          end: "+=100%", // Dura exatamente a altura de 1 tela (100vh)
-          scrub: 1, // O movimento '1' deixa o scroll amanteigado
-        },
+    if (prefersReducedMotion) {
+      gsap.set([quoteTextRef.current, oldHeroContentRef.current], {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        clearProps: "all",
       });
+      return;
+    }
 
-      // A cortina vinho desliza para cima...
-      tl.to(curtainRef.current, { yPercent: -100, ease: "none" }, 0);
+    // gsap.matchMedia() é a forma correta de ter configs diferentes por breakpoint
+    const mm = gsap.matchMedia();
 
-      // ...enquanto o Hero do Ateliê sofre um zoom-in e fade-in de trás da cortina
-      tl.fromTo(
-        oldHeroContentRef.current,
-        { scale: 0.85, opacity: 0, y: 60 },
-        { scale: 1, opacity: 1, y: 0, ease: "power2.out" },
-        0,
-      );
+    // ── DESKTOP (769px+) ─────────────────────────────────────────────────────
+    mm.add("(min-width: 769px)", (context) => {
+      const ctx = gsap.context(() => {
+        gsap.fromTo(
+          quoteTextRef.current,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 1.8, delay: 0.3, ease: "power3.out" },
+        );
 
-      // O indicador de "Desvendar" some logo no começo do scroll
-      tl.to(indicatorRef.current, { opacity: 0, y: -20, duration: 0.3 }, 0);
-    }, wrapperRef);
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: wrapperRef.current,
+            start: "top top",
+            end: "+=100%",
+            scrub: 1,
+            invalidateOnRefresh: true, // Recalcula se a janela redimensionar
+          },
+        });
 
-    return () => ctx.revert();
+        tl.to(curtainRef.current, { yPercent: -100, ease: "none" }, 0);
+        tl.fromTo(
+          oldHeroContentRef.current,
+          { scale: 0.85, opacity: 0, y: 60 },
+          { scale: 1, opacity: 1, y: 0, ease: "power2.out" },
+          0,
+        );
+        tl.to(indicatorRef.current, { opacity: 0, y: -20, duration: 0.3 }, 0);
+      }, wrapperRef);
+
+      return () => ctx.revert();
+    });
+
+    // ── MOBILE / TABLET (até 768px) ──────────────────────────────────────────
+    mm.add("(max-width: 768px)", (context) => {
+      const ctx = gsap.context(() => {
+        gsap.fromTo(
+          quoteTextRef.current,
+          { opacity: 0, y: 15 }, // Deslocamento menor no mobile
+          { opacity: 1, y: 0, duration: 1.2, delay: 0.3, ease: "power3.out" },
+        );
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: wrapperRef.current,
+            start: "top top",
+            end: "+=100%",
+            // scrub menor = a animação responde mais rápido ao touch,
+            // evitando aquela sensação de "atraso" no iOS/Android
+            scrub: 0.3,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        tl.to(curtainRef.current, { yPercent: -100, ease: "none" }, 0);
+
+        // Sem scale no mobile: evita repaints caros e texto borrado durante o transform
+        tl.fromTo(
+          oldHeroContentRef.current,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, ease: "power2.out" },
+          0,
+        );
+
+        tl.to(indicatorRef.current, { opacity: 0, duration: 0.2 }, 0);
+      }, wrapperRef);
+
+      return () => ctx.revert();
+    });
+
+    // Recalcula o ScrollTrigger ao girar o dispositivo
+    const handleOrientationChange = () => {
+      // Pequeno delay para o browser terminar o resize antes de recalcular
+      setTimeout(() => ScrollTrigger.refresh(true), 200);
+    };
+
+    window.addEventListener("orientationchange", handleOrientationChange);
+
+    return () => {
+      mm.revert();
+      window.removeEventListener("orientationchange", handleOrientationChange);
+    };
   }, []);
 
   return (
     <section
       ref={wrapperRef}
       id="hero-wrapper"
-      className="relative w-full h-[200vh] bg-[#2c100a]"
+      className="relative w-full bg-[#2c100a]"
+      // dvh (dynamic viewport height) = se adapta à barra de endereço
+      // do Safari/Chrome mobile que aparece/desaparece durante o scroll.
+      // vh normal causa "salto" de layout no iOS.
+      style={{ height: "200dvh" }}
     >
-      {/* O wrapper precisa ter 200vh para permitir rolagem de 2 seções inteiras. 
-          O comentário agora está no lugar certo! */}
-
-      {/* Container "Sticky" (Fixo) que segura o conteúdo na tela enquanto ocorre a mágica */}
-      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
+      {/* Container Sticky — usa dvh pelo mesmo motivo */}
+      <div
+        className="sticky top-0 left-0 w-full overflow-hidden"
+        style={{ height: "100dvh" }}
+      >
         {/* =========================================
-            SESSÃO 2 (REVELADA POR BAIXO) - Seu Hero Atual 
+            SESSÃO 2 (REVELADA POR BAIXO)
             ========================================= */}
         <div className="absolute inset-0 z-0">
-          {/* Background Carousel */}
-          <div className="absolute inset-0 z-0 bg-[#2c100a] transition-all duration-300">
+          {/* Background */}
+          <div className="absolute inset-0 z-0 bg-[#2c100a]">
             {backgrounds.map((bg, index) => (
               <div
                 key={bg.id}
@@ -97,7 +165,7 @@ export default function Hero() {
             ))}
           </div>
 
-          {/* Overlay Escuro */}
+          {/* Overlay */}
           <div
             className="absolute inset-0 z-[1] pointer-events-none"
             style={{
@@ -106,10 +174,13 @@ export default function Hero() {
             }}
           />
 
-          {/* Conteúdo Central do Ateliê */}
+          {/* Conteúdo do Ateliê */}
           <div
             ref={oldHeroContentRef}
             className="relative z-[2] w-full h-full flex flex-col items-center justify-center px-6 text-center text-white"
+            // will-change avisa o browser para criar uma camada GPU antecipadamente,
+            // evitando o "flash" na primeira frame da animação
+            style={{ willChange: "opacity, transform" }}
           >
             <span className="font-mono text-[0.7rem] tracking-[0.25em] uppercase text-white/60 mb-5 inline-block border border-white/15 py-1.5 px-4 rounded-[60px] backdrop-blur-sm">
               ✦ Ateliê-Clínico
@@ -143,7 +214,7 @@ export default function Hero() {
         </div>
 
         {/* =========================================
-            SESSÃO 1 (CORTINA) - Citação Clarice Lispector
+            SESSÃO 1 (CORTINA) — Clarice Lispector
             ========================================= */}
         <div
           ref={curtainRef}
@@ -152,11 +223,14 @@ export default function Hero() {
             background:
               "radial-gradient(ellipse at 30% 40%, rgba(122,26,46,0.95) 0%, rgba(44,16,10,1) 80%), radial-gradient(ellipse at 70% 60%, rgba(74,44,94,0.4) 0%, transparent 60%)",
             backgroundColor: "#2c100a",
+            // will-change na cortina: o yPercent é animado direto nela
+            willChange: "transform",
           }}
         >
-          {/* Efeito de Ruído/Grão (Noise) sobre o degradê vinho */}
+          {/* Filtro de ruído: desabilitado em mobile (hidden) e tablet (sm:hidden md:block).
+              SVG filters são caríssimos em GPUs móveis e causam jank visível. */}
           <div
-            className="absolute inset-0 z-0 pointer-events-none opacity-[0.25] mix-blend-overlay"
+            className="absolute inset-0 z-0 pointer-events-none opacity-[0.25] mix-blend-overlay hidden md:block"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
             }}

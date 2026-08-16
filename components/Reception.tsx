@@ -1,15 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Textura de algodão cru — três camadas CSS sobrepostas:
-//   1. Ruído fractal SVG   → irregularidade natural do fio
-//   2. Trama horizontal    → fios da urdidura
-//   3. Trama vertical      → fios da trama
 export const COTTON_BG: React.CSSProperties = {
   backgroundColor: "#f0e6d2",
   backgroundImage: [
@@ -39,6 +35,14 @@ const services = [
 
 export default function Reception() {
   const sectionRef = useRef<HTMLElement>(null);
+
+  // null = nenhum card aberto; string = número do card ativo (ex: "01")
+  const [activeCard, setActiveCard] = useState<string | null>(null);
+
+  const toggleCard = (number: string) => {
+    // Alterna: abre o card clicado, fecha se já estava aberto
+    setActiveCard((prev) => (prev === number ? null : number));
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -96,11 +100,6 @@ export default function Reception() {
           O que pode a <span className="highlight">psicoterapia</span>?
         </h2>
 
-        {/*
-          Citação — Lygia Fagundes Telles
-          Correção: text-soft-text/80 não funciona com cores hex no Tailwind.
-          Usando valores explícitos de cor para garantir visibilidade.
-        */}
         <div className="reception-header-item opacity-0 mt-5 mb-2">
           <p
             className="font-display italic leading-[1.75] max-w-[560px] mx-auto"
@@ -121,26 +120,148 @@ export default function Reception() {
         </div>
 
         <div className="reception-steps grid grid-cols-1 md:grid-cols-3 gap-[24px] lg:gap-[30px] mt-12 max-w-[480px] md:max-w-none mx-auto">
-          {services.map((s) => (
-            <div
-              key={s.number}
-              className="step text-center py-9 px-6 bg-white/70 backdrop-blur-[2px] rounded-[20px] border border-primary/[0.07] shadow-[0_4px_24px_rgba(44,16,10,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_48px_rgba(44,16,10,0.07)] relative opacity-0"
-            >
+          {services.map((s) => {
+            const isActive = activeCard === s.number;
+
+            return (
               <div
-                className="font-display font-semibold leading-none mb-3"
-                style={{ fontSize: "3rem", color: "rgba(124,7,12,0.12)" }}
+                key={s.number}
+                // ── Acessibilidade ──────────────────────────────────────────
+                role="button"
+                tabIndex={0}
+                aria-expanded={isActive}
+                aria-label={`${s.title}: ${isActive ? "recolher" : "expandir"} descrição`}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    toggleCard(s.number);
+                  }
+                }}
+                onClick={() => toggleCard(s.number)}
+                // ── Layout e visual base ────────────────────────────────────
+                className={[
+                  "step group relative overflow-hidden",
+                  "flex flex-col justify-center text-center",
+                  "py-10 px-6 rounded-[20px] border",
+                  "min-h-[280px] cursor-pointer select-none",
+                  "transition-all duration-500",
+                  // Estado ativo (clicado/tocado) — espelha o hover
+                  isActive
+                    ? "border-primary/20 shadow-[0_16px_48px_rgba(44,16,10,0.1)] -translate-y-1.5 bg-white/80"
+                    : "border-primary/[0.07] shadow-[0_4px_24px_rgba(44,16,10,0.04)] bg-white/70",
+                  // Hover: só entra em cena em dispositivos com mouse real
+                  "hover:border-primary/20 hover:-translate-y-1.5 hover:shadow-[0_16px_48px_rgba(44,16,10,0.1)] hover:bg-white/80",
+                  "backdrop-blur-[2px]",
+                ].join(" ")}
               >
-                {s.number}
+                {/* ── Indicador "+" / "×" ─────────────────────────────────────
+                    Visível apenas em mobile/tablet (md:hidden).
+                    Em desktop, o hover já comunica a interatividade.      */}
+                <div
+                  aria-hidden
+                  className={[
+                    "absolute top-4 right-4 md:hidden",
+                    "w-7 h-7 rounded-full border flex items-center justify-center",
+                    "transition-all duration-300",
+                    isActive
+                      ? "border-primary/40 bg-primary/[0.06] text-primary/60 rotate-45"
+                      : "border-primary/15 bg-white/60 text-primary/30",
+                  ].join(" ")}
+                >
+                  {/* Ícone "+" que vira "×" ao rotacionar 45° */}
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    <line
+                      x1="5"
+                      y1="1"
+                      x2="5"
+                      y2="9"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <line
+                      x1="1"
+                      y1="5"
+                      x2="9"
+                      y2="5"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </div>
+
+                {/* ── Conteúdo principal (sobe no hover/ativo) ────────────────
+                    group-hover: age no mouse (desktop).
+                    Classe condicional: age no estado React (mobile/toque). */}
+                <div
+                  className={[
+                    "transition-transform duration-500 ease-out",
+                    isActive ? "-translate-y-[18px]" : "",
+                    "group-hover:-translate-y-[18px]",
+                  ].join(" ")}
+                >
+                  <div
+                    className="font-display font-semibold leading-none mb-4 transition-colors duration-500 group-hover:text-primary/[0.04]"
+                    style={{
+                      fontSize: "3.5rem",
+                      color: isActive
+                        ? "rgba(124,7,12,0.04)"
+                        : "rgba(124,7,12,0.08)",
+                    }}
+                  >
+                    {s.number}
+                  </div>
+
+                  <h4 className="font-display text-[1.4rem] font-semibold mb-2 text-soft-text">
+                    {s.title}
+                  </h4>
+
+                  {/* Traço decorativo que se expande */}
+                  <div
+                    className={[
+                      "h-[2px] mx-auto mt-4 transition-all duration-500",
+                      isActive ? "w-12 bg-primary/50" : "w-6 bg-primary/20",
+                      "group-hover:w-12 group-hover:bg-primary/50",
+                    ].join(" ")}
+                  />
+                </div>
+
+                {/* ── Descrição revelada ───────────────────────────────────────
+                    Em desktop: group-hover: controla a visibilidade.
+                    Em mobile:  classes condicionais via isActive controlam.
+                    As duas camadas coexistem sem conflito.                */}
+                <div
+                  className={[
+                    "absolute bottom-6 left-6 right-6",
+                    "transition-all duration-500 ease-out pointer-events-none",
+                    isActive
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-3",
+                    "group-hover:opacity-100 group-hover:translate-y-0",
+                  ].join(" ")}
+                >
+                  <p className="text-[0.9rem] text-muted-text leading-[1.65]">
+                    {s.desc}
+                  </p>
+                </div>
               </div>
-              <h4 className="font-display text-[1.3rem] font-semibold mb-2 text-soft-text">
-                {s.title}
-              </h4>
-              <p className="text-[0.95rem] text-muted-text leading-[1.6]">
-                {s.desc}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
+
+        {/* Dica visual — aparece apenas em mobile, some após o primeiro toque */}
+        <p
+          className={[
+            "md:hidden mt-5 font-mono text-[0.65rem] tracking-[0.18em] uppercase",
+            "transition-opacity duration-500",
+            activeCard ? "opacity-0 pointer-events-none" : "opacity-40",
+          ].join(" ")}
+          style={{ color: "#8a6a6a" }}
+          aria-hidden
+        >
+          Toque para explorar
+        </p>
 
         <div className="reception-header-item opacity-0 mt-10">
           <a

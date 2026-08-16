@@ -5,6 +5,7 @@ import ThreadProgress from "@/components/ThreadProgress";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { COTTON_BG } from "@/components/Reception";
 import WaveDivider from "@/components/WaveDivider";
+import ButterflyDivider from "@/components/ButterflyDivider";
 
 // Sections
 import Hero from "@/components/Hero";
@@ -74,6 +75,8 @@ export default function Home() {
       <div id="expression">
         <Expression />
       </div>
+
+      {/* <ButterflyDivider /> */}
 
       <div id="community">
         <Community />
