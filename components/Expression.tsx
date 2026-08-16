@@ -10,22 +10,22 @@ const pillars = [
   {
     icon: "/wooden-spool-icon.png",
     title: "Escuta artesanal",
-    desc: "Ponto a ponto, o bordado ensina presença e paciência — e cria espaço para que os afetos tomem forma.",
+    desc: "Cada processo é único, como uma peça feita à mão. Uma escuta sensível, construída com atenção e presença, que reconhece a singularidade de cada história, seus ritmos e afetos.",
   },
   {
     icon: "/paint-palette-icon.png",
     title: "Fazer à mão",
-    desc: "As cores dizem o que as palavras ainda não encontraram. Pintar é também uma forma de se ouvir.",
+    desc: "Na clínica, nada é construído sozinho. É no encontro com o outro que organizamos afetos, elaboramos sentidos e criamos novas possibilidades para aquilo que vivemos.",
   },
   {
     icon: "/sewing-icon.png",
     title: "Tempo",
-    desc: "Tecer, remendar, sobrepor — metáforas vivas para os processos de reconstrução que atravessamos.",
+    desc: "Nenhum processo se faz com pressa. O cuidado acontece no tempo da construção: tempo de sentir, elaborar e transformar, respeitando o ritmo possível de cada pessoa.",
   },
   {
     icon: "/craft-scissors-icon.png",
     title: "Vínculo",
-    desc: "Colagem, escrita, fotografia. Cada pessoa encontra a linguagem que mais fala de si mesma.",
+    desc: "É o fazer junto que sustenta esse espaço. Palavras, silêncios, pausas, gestos e afetos se tornam mediações pelas quais novos sentidos podem ser construídos.",
   },
 ];
 

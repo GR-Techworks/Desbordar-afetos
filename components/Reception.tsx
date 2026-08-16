@@ -23,17 +23,17 @@ const services = [
   {
     number: "01",
     title: "Compreender",
-    desc: "-vai mandar",
+    desc: "Olhar para sua história e para as relações que a atravessam, reconhecendo como experiências, afetos e condições concretas participam daquilo que você vive hoje.",
   },
   {
     number: "02",
     title: "Ressignificar",
-    desc: "-vai mandar",
+    desc: "Construir novos sentidos para experiências já vividas, ampliando a autoconsciência e encontrando outras formas de se relacionar consigo, com o outro e com o mundo.",
   },
   {
     number: "03",
     title: "Transformar",
-    desc: "-vai mandar",
+    desc: "Criar novas possibilidades de ação diante da própria realidade. Não apagando o que foi vivido, mas construindo outras maneiras de estar, escolher e agir no mundo.",
   },
 ];
 

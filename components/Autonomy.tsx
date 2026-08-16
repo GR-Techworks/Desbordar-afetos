@@ -145,16 +145,14 @@ export default function Autonomy() {
               Abordagem clínica
             </span>
             <h2 className="autonomy-text-item section-title opacity-0">
-              Sobre <span className="highlight">mim</span>
+              Sobre <span className="highlight">Ana Clara Reis</span>
             </h2>
 
             <p className="autonomy-text-item text-muted-text text-[1.05rem] leading-[1.8] mb-8 opacity-0">
-              Sou Ana Clara Reis, psicóloga (CRP 04/81276), formada pelo Centro
-              Universitário Academia (UniAcademia), pós-graduada em Psicologia
-              Social e Comunidades e pós-graduanda em Psicologia Clínica
-              Histórico-Cultural. Acredito que esse é um espaço onde histórias
-              podem ser compreendidas, sentidos podem ser recriados e novas
-              possibilidades de existir podem ser construídas.
+              Sou psicóloga (CRP 04/81276), formada pelo Centro Universitário
+              Academia (UniAcademia), em Juiz de Fora–MG. Sou pós-graduada em
+              Psicologia Social e Comunidades e, atualmente, pós-graduanda em
+              Psicologia Clínica Histórico-Cultural.
             </p>
 
             {/* Frase de transição */}
@@ -256,8 +254,8 @@ export default function Autonomy() {
 
             {/* Citação Pessoal */}
             <div className="autonomy-text-item font-display text-[1.2rem] italic text-primary pt-5 pb-2 border-t-2 border-primary/[0.08] mt-6 opacity-0">
-              &ldquo;A arte nos ensina que o que desborda pode ser transformado
-              em beleza.&rdquo;
+              &ldquo;Me bordo, fio a fio. Me emendo, me enlaço, me costuro e
+              desfaço. Me desbordo, bordo, e sou.&rdquo;
             </div>
             <div className="autonomy-text-item font-mono text-[0.8rem] text-primary opacity-60 mt-1 opacity-0">
               Ana Clara Reis · Psicóloga · CRP 04/81276
