@@ -5,8 +5,9 @@ export default function Footer() {
         <div className="font-display text-[1.2rem] text-white mb-1">
           Ana Clara Reis
         </div>
+        <div className="text-[0.85rem] opacity-50 mt-2">ateliê-clínico</div>
         <div className="text-[0.85rem] opacity-50 mb-4">
-          psicóloga, artista & pesquisadora · ateliê-clínico Desbordar Afetos
+          psicóloga, artista & pesquisadora
         </div>
         <div className="w-10 h-px bg-white/10 mx-auto my-4" />
 

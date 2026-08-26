@@ -142,17 +142,17 @@ export default function Autonomy() {
           {/* Texto */}
           <div>
             <span className="autonomy-text-item section-label opacity-0">
-              Abordagem clínica
+              Sobre mim
             </span>
             <h2 className="autonomy-text-item section-title opacity-0">
-              Sobre <span className="highlight">Ana Clara Reis</span>
+              Ana <span className="highlight">Clara</span>,
             </h2>
 
             <p className="autonomy-text-item text-muted-text text-[1.05rem] leading-[1.8] mb-8 opacity-0">
-              Sou psicóloga (CRP 04/81276), formada pelo Centro Universitário
-              Academia (UniAcademia), em Juiz de Fora–MG. Sou pós-graduada em
-              Psicologia Social e Comunidades e, atualmente, pós-graduanda em
-              Psicologia Clínica Histórico-Cultural.
+              Psicóloga formada pelo Centro Universitário Academia
+              (UniAcademia), em Juiz de Fora - MG. Pós-graduada em Psicologia
+              Social e Comunidades e, atualmente, pós-graduanda em Psicologia
+              Clínica Histórico-Cultural.
             </p>
 
             {/* Frase de transição */}

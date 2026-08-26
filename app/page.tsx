@@ -76,7 +76,7 @@ export default function Home() {
         <Expression />
       </div>
 
-      {/* <ButterflyDivider /> */}
+      <ButterflyDivider />
 
       <div id="community">
         <Community />
