@@ -10,22 +10,22 @@ const pillars = [
   {
     icon: "/wooden-spool-icon.png",
     title: "Escuta artesanal",
-    desc: "Ponto a ponto, o bordado ensina presença e paciência — e cria espaço para que os afetos tomem forma.",
+    desc: "Cada processo é único, como uma peça feita à mão. Uma escuta sensível, construída com atenção e presença, que reconhece a singularidade de cada história, seus ritmos e afetos.",
   },
   {
     icon: "/paint-palette-icon.png",
     title: "Fazer à mão",
-    desc: "As cores dizem o que as palavras ainda não encontraram. Pintar é também uma forma de se ouvir.",
+    desc: "Na clínica, nada é construído sozinho. É no encontro com o outro que organizamos afetos, elaboramos sentidos e criamos novas possibilidades para aquilo que vivemos.",
   },
   {
     icon: "/sewing-icon.png",
     title: "Tempo",
-    desc: "Tecer, remendar, sobrepor — metáforas vivas para os processos de reconstrução que atravessamos.",
+    desc: "Nenhum processo se faz com pressa. O cuidado acontece no tempo da construção: tempo de sentir, elaborar e transformar, respeitando o ritmo possível de cada pessoa.",
   },
   {
     icon: "/craft-scissors-icon.png",
     title: "Vínculo",
-    desc: "Colagem, escrita, fotografia. Cada pessoa encontra a linguagem que mais fala de si mesma.",
+    desc: "É o fazer junto que sustenta esse espaço. Palavras, silêncios, pausas, gestos e afetos se tornam mediações pelas quais novos sentidos podem ser construídos.",
   },
 ];
 
@@ -81,8 +81,23 @@ export default function Expression() {
 
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-[36px] lg:gap-[50px] items-center">
-          {/* Texto + pilares */}
-          <div>
+          {/* Imagem – agora primeiro no DOM (mobile: em cima) */}
+          <div className="expression-visual relative rounded-2xl overflow-hidden h-full bg-acolhimento aspect-[4/5] shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0 md:order-2">
+            <img
+              src="/expressao.jpg"
+              alt="Arte e psicologia em sintonia"
+              className="w-full h-full object-cover"
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.src =
+                  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'%3E%3Crect width='800' height='1000' fill='%23FDF7F2'/%3E%3Cpath d='M100 200 Q300 100 500 250 Q700 400 550 650 Q400 850 200 700 Q50 550 100 200' fill='%23E8D5C4' opacity='0.4'/%3E%3Ccircle cx='450' cy='500' r='160' fill='%23D4B8A8' opacity='0.2'/%3E%3C/svg%3E";
+                e.currentTarget.onerror = null;
+              }}
+            />
+          </div>
+
+          {/* Texto + pilares – agora em segundo no DOM (mobile: embaixo) */}
+          <div className="md:order-1">
             <span className="expression-text-item section-label opacity-0">
               Uma clínica artesanal, feita à mão, com tempo, vínculo e cuidado.
             </span>
@@ -113,21 +128,6 @@ export default function Expression() {
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Visual */}
-          <div className="expression-visual relative rounded-2xl overflow-hidden h-full bg-acolhimento aspect-[4/5] shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0">
-            <img
-              src="/foto-arte-psicologia.jpg"
-              alt="Arte e psicologia em sintonia"
-              className="w-full h-full object-cover"
-              loading="lazy"
-              onError={(e) => {
-                e.currentTarget.src =
-                  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'%3E%3Crect width='800' height='1000' fill='%23FDF7F2'/%3E%3Cpath d='M100 200 Q300 100 500 250 Q700 400 550 650 Q400 850 200 700 Q50 550 100 200' fill='%23E8D5C4' opacity='0.4'/%3E%3Ccircle cx='450' cy='500' r='160' fill='%23D4B8A8' opacity='0.2'/%3E%3C/svg%3E";
-                e.currentTarget.onerror = null;
-              }}
-            />
           </div>
         </div>
       </div>

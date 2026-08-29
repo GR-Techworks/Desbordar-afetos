@@ -54,7 +54,7 @@ export default function Connection() {
             {/* Container da Imagem */}
             <div className="relative w-full h-full z-10 rounded-[24px] shadow-xl overflow-hidden border-[6px] border-white">
               <img
-                src="/foto-detalhe-arte.jpg"
+                src="/foto-conexao.jpg"
                 alt="Psicologia Histórico-Cultural e Arte"
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 loading="lazy"

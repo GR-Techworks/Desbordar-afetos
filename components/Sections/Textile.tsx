@@ -136,7 +136,7 @@ export default function Textile() {
               Desbordar Afetos no Substack
             </h3>
             <p className="text-white/75 text-[1rem] leading-[1.7] max-w-md">
-              Textos sobre clínica, arte, afeto e processo terapêutico —
+              Textos sobre clínica, arte, afeto e processo terapêutico -
               enviados com calma, no tempo certo. Sem spam, só o que importa.
             </p>
           </div>

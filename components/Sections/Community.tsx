@@ -50,7 +50,7 @@ export default function Connection() {
           <div className="connection-image-wrap relative w-full aspect-[4/5] opacity-0 group">
             <div className="absolute top-0 left-0 w-[70%] h-[65%] z-10 -rotate-3 transition-all duration-500 hover:rotate-0 hover:z-40 hover:scale-105 shadow-lg rounded-2xl overflow-hidden border-[6px] border-white">
               <img
-                src="/foto-detalhe-arte.jpg"
+                src="/foto-elementos-mesa.jpg"
                 alt="Momento de criação no atelier"
                 className="w-full h-full object-cover"
                 loading="lazy"
@@ -62,7 +62,7 @@ export default function Connection() {
             </div>
             <div className="absolute bottom-4 right-0 w-[75%] h-[70%] z-20 rotate-2 transition-all duration-500 hover:-rotate-1 hover:z-40 hover:scale-105 shadow-2xl rounded-2xl overflow-hidden border-[6px] border-white">
               <img
-                src="/foto-comunidade.jpg"
+                src="/foto-quarto.jpg"
                 alt="Comunidade Desbordar Afetos"
                 className="w-full h-full object-cover"
                 loading="lazy"
@@ -74,7 +74,7 @@ export default function Connection() {
             </div>
             <div className="absolute top-[20%] -right-4 md:-right-8 w-[40%] aspect-square z-30 rotate-12 transition-all duration-500 hover:rotate-0 hover:scale-110 shadow-xl rounded-full overflow-hidden border-[4px] border-[#F5ECE4]">
               <img
-                src="/foto-extra.jpg"
+                src="/foto-ana-2.jpg"
                 alt="Encontro e conexão"
                 className="w-full h-full object-cover"
                 loading="lazy"

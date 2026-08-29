@@ -122,7 +122,6 @@ export default function Autonomy() {
       className="py-[100px] md:py-[70px] bg-acolhimento-light"
     >
       <div className="max-w-[1200px] mx-auto px-6">
-        {/* — Abordagem clínica — */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-[36px] lg:gap-[50px] items-start">
           {/* Foto */}
           <div className="autonomy-image rounded-[20px] overflow-hidden aspect-[4/5] bg-acolhimento shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0 md:sticky md:top-28">
@@ -130,7 +129,7 @@ export default function Autonomy() {
               src="/foto-ana.jpg"
               className="w-full h-full object-cover"
               loading="lazy"
-              alt="Ana Clara Reis — psicóloga e artista"
+              alt="Ana Clara Reis - psicóloga e artista"
               onError={(e) => {
                 e.currentTarget.src =
                   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'%3E%3Crect width='800' height='1000' fill='%23FDF7F2'/%3E%3Ccircle cx='400' cy='400' r='200' fill='%23E8D5C4' opacity='0.4'/%3E%3C/svg%3E";
@@ -142,19 +141,17 @@ export default function Autonomy() {
           {/* Texto */}
           <div>
             <span className="autonomy-text-item section-label opacity-0">
-              Abordagem clínica
+              Sobre mim
             </span>
             <h2 className="autonomy-text-item section-title opacity-0">
-              Sobre <span className="highlight">mim</span>
+              Ana <span className="highlight">Clara</span>,
             </h2>
 
             <p className="autonomy-text-item text-muted-text text-[1.05rem] leading-[1.8] mb-8 opacity-0">
-              Sou Ana Clara Reis, psicóloga (CRP 04/81276), formada pelo Centro
-              Universitário Academia (UniAcademia), pós-graduada em Psicologia
-              Social e Comunidades e pós-graduanda em Psicologia Clínica
-              Histórico-Cultural. Acredito que esse é um espaço onde histórias
-              podem ser compreendidas, sentidos podem ser recriados e novas
-              possibilidades de existir podem ser construídas.
+              Psicóloga formada pelo Centro Universitário Academia
+              (UniAcademia), em Juiz de Fora - MG. Pós-graduada em Psicologia
+              Social e Comunidades e, atualmente, pós-graduanda em Psicologia
+              Clínica Histórico-Cultural.
             </p>
 
             {/* Frase de transição */}
@@ -256,8 +253,8 @@ export default function Autonomy() {
 
             {/* Citação Pessoal */}
             <div className="autonomy-text-item font-display text-[1.2rem] italic text-primary pt-5 pb-2 border-t-2 border-primary/[0.08] mt-6 opacity-0">
-              &ldquo;A arte nos ensina que o que desborda pode ser transformado
-              em beleza.&rdquo;
+              &ldquo;Me bordo, fio a fio. Me emendo, me enlaço, me costuro e
+              desfaço. Me desbordo, bordo, e sou.&rdquo;
             </div>
             <div className="autonomy-text-item font-mono text-[0.8rem] text-primary opacity-60 mt-1 opacity-0">
               Ana Clara Reis · Psicóloga · CRP 04/81276

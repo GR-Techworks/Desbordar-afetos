@@ -3,28 +3,19 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ThreadProgress from "@/components/ThreadProgress";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { COTTON_BG } from "@/components/Reception";
-import WaveDivider from "@/components/WaveDivider";
+import ButterflyDivider from "@/components/ButterflyDivider";
+import FloatingButterfly from "@/components/FloatingButterfly";
 
 // Sections
-import Hero from "@/components/Hero";
-import Reception from "@/components/Reception";
-import Autonomy from "@/components/Autonomy";
-import Vulnerability from "@/components/Vulnerability";
-import Connection from "@/components/Connection";
-import Expression from "@/components/Expression";
-import Textile from "@/components/Textile";
-import Contact from "@/components/Contact";
-import Community from "@/components/Community";
-
-const C = {
-  heroDark: "#1a0a08", // bg-primary-dark do Hero
-  cotton: "#f0e6d2", // COTTON_BG do Reception
-  blushLight: "#f9f0ea", // bg-acolhimento-light do Connection (ajuste se necessário)
-  warmWhite: "#fdf7f2", // bg-warm-white do Expression / Vulnerability
-  warmBeige: "#f5ece2", // bg-warm-beige do Textile
-  primary: "#7c070c", // bg-primary do Autonomy (Vulnerability usa warmWhite)
-};
+import Hero from "@/components/Sections/Hero";
+import Reception from "@/components/Sections/Reception";
+import Autonomy from "@/components/Sections/Autonomy";
+import Vulnerability from "@/components/Sections/Vulnerability";
+import Connection from "@/components/Sections/Connection";
+import Expression from "@/components/Sections/Expression";
+import Textile from "@/components/Sections/Textile";
+import Contact from "@/components/Sections/Contact";
+import Community from "@/components/Sections/Community";
 
 export default function Home() {
   return (
@@ -41,39 +32,17 @@ export default function Home() {
         <Connection />
       </div>
 
-      {/* 
-      <div
-        className="w-full h-32"
-        style={{
-          background:
-            "linear-gradient(to top, rgba(139, 103, 60, 0.16), transparent 100%)",
-          marginTop: "8rem", // Puxa a recepção para cima do degradê
-          position: "relative",
-          zIndex: 10,
-        }}
-      />
-      */}
-
-      <div id="reception">
+      <div id="reception" className="relative w-full overflow-hidden">
+        <FloatingButterfly side="left" top="5%" scale={1.2} rotation={12} />
         <Reception />
       </div>
-
-      {/* 
-      <div
-        className="w-full h-32"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(139, 103, 60, 0.16), transparent 100%)",
-          marginBottom: "-8rem", // Puxa a recepção para debaixo do degradê
-          position: "relative",
-          zIndex: 10,
-        }}
-      />
-      */}
 
       <div id="expression">
         <Expression />
       </div>
+
+      <ButterflyDivider />
+      <div className="h-24" />
 
       <div id="community">
         <Community />
@@ -87,7 +56,8 @@ export default function Home() {
         <Vulnerability />
       </div>
 
-      <div id="textile">
+      <div id="textile" className="relative w-full overflow-hidden">
+        <FloatingButterfly side="right" top="15%" scale={0.8} rotation={15} />
         <Textile />
       </div>
 
