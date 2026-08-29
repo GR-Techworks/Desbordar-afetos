@@ -23,6 +23,13 @@ export default function Hero() {
   const oldHeroContentRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
 
+  const handleCurtainUp = () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => {
     // Respeita prefers-reduced-motion (acessibilidade)
     const prefersReducedMotion = window.matchMedia(
@@ -130,12 +137,8 @@ export default function Hero() {
       ref={wrapperRef}
       id="hero-wrapper"
       className="relative w-full bg-[#2c100a]"
-      // dvh (dynamic viewport height) = se adapta à barra de endereço
-      // do Safari/Chrome mobile que aparece/desaparece durante o scroll.
-      // vh normal causa "salto" de layout no iOS.
       style={{ height: "200dvh" }}
     >
-      {/* Container Sticky — usa dvh pelo mesmo motivo */}
       <div
         className="sticky top-0 left-0 w-full overflow-hidden"
         style={{ height: "100dvh" }}
@@ -249,13 +252,59 @@ export default function Hero() {
 
           <div
             ref={indicatorRef}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3 text-white/60 font-mono text-[0.65rem] tracking-[0.2em] uppercase animate-float-down"
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center group cursor-pointer"
+            onClick={handleCurtainUp}
+            title="Desbordar Afetos"
           >
-            <span>Desvendar</span>
-            <div className="w-px h-12 bg-gradient-to-b from-white/50 to-transparent" />
+            {/* 
+              CAMADA 1: Controla a flutuação constante (Respiração).
+              Mantemos a animação CSS aqui para não conflitar com o hover.
+            */}
+            <div style={{ animation: "gentleFloat 4s ease-in-out infinite" }}>
+              {/* 
+                CAMADA 2: Controla o layout e o efeito de separação no Hover.
+                Definimos uma largura fixa para que os elementos tenham espaço para se afastar.
+              */}
+              <div className="relative flex items-center justify-center w-40 h-16">
+                {/* Imagem da Agulha 
+                    No hover (group-hover), ela desliza para a esquerda (-translate-x-12) 
+                    e fica levemente menor ou mais nítida, se desejar.
+                */}
+                <img
+                  src="/agulha-recorte-2.png"
+                  alt="Agulha apontando para baixo"
+                  className="absolute w-12 h-auto opacity-80 drop-shadow-md transition-all duration-[1s] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-x-12 group-hover:opacity-100"
+                />
+
+                {/* Texto Estilizado "Desbordar"
+                    Começa escondido (opacity-0) e levemente para a esquerda.
+                    No hover, desliza para a direita (translate-x-4) e revela.
+                */}
+                <span
+                  className="absolute font-display italic text-lg md:text-xl tracking-wide opacity-0 -translate-x-7 transition-all duration-[1s] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:opacity-100 group-hover:translate-x-4 md:group-hover:translate-x-6"
+                  style={{ color: "#d9a087" }}
+                >
+                  Desbordar
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Adicionando a animação CSS diretamente no componente para testar rápido.
+          Isso cria um efeito de "respiração" muito mais lento e natural que o padrão. */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+        @keyframes gentleFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(8px); }
+          0%, 100% { transform: rotate(-2deg); }
+        }
+      `,
+        }}
+      />
     </section>
   );
 }

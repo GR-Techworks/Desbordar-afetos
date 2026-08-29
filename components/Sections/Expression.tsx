@@ -81,8 +81,23 @@ export default function Expression() {
 
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-[36px] lg:gap-[50px] items-center">
-          {/* Texto + pilares */}
-          <div>
+          {/* Imagem – agora primeiro no DOM (mobile: em cima) */}
+          <div className="expression-visual relative rounded-2xl overflow-hidden h-full bg-acolhimento aspect-[4/5] shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0 md:order-2">
+            <img
+              src="/expressao.jpg"
+              alt="Arte e psicologia em sintonia"
+              className="w-full h-full object-cover"
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.src =
+                  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'%3E%3Crect width='800' height='1000' fill='%23FDF7F2'/%3E%3Cpath d='M100 200 Q300 100 500 250 Q700 400 550 650 Q400 850 200 700 Q50 550 100 200' fill='%23E8D5C4' opacity='0.4'/%3E%3Ccircle cx='450' cy='500' r='160' fill='%23D4B8A8' opacity='0.2'/%3E%3C/svg%3E";
+                e.currentTarget.onerror = null;
+              }}
+            />
+          </div>
+
+          {/* Texto + pilares – agora em segundo no DOM (mobile: embaixo) */}
+          <div className="md:order-1">
             <span className="expression-text-item section-label opacity-0">
               Uma clínica artesanal, feita à mão, com tempo, vínculo e cuidado.
             </span>
@@ -113,21 +128,6 @@ export default function Expression() {
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Visual */}
-          <div className="expression-visual relative rounded-2xl overflow-hidden h-full bg-acolhimento aspect-[4/5] shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0">
-            <img
-              src="/foto-arte-psicologia.jpg"
-              alt="Arte e psicologia em sintonia"
-              className="w-full h-full object-cover"
-              loading="lazy"
-              onError={(e) => {
-                e.currentTarget.src =
-                  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'%3E%3Crect width='800' height='1000' fill='%23FDF7F2'/%3E%3Cpath d='M100 200 Q300 100 500 250 Q700 400 550 650 Q400 850 200 700 Q50 550 100 200' fill='%23E8D5C4' opacity='0.4'/%3E%3Ccircle cx='450' cy='500' r='160' fill='%23D4B8A8' opacity='0.2'/%3E%3C/svg%3E";
-                e.currentTarget.onerror = null;
-              }}
-            />
           </div>
         </div>
       </div>

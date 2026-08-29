@@ -122,7 +122,6 @@ export default function Autonomy() {
       className="py-[100px] md:py-[70px] bg-acolhimento-light"
     >
       <div className="max-w-[1200px] mx-auto px-6">
-        {/* — Abordagem clínica — */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-[36px] lg:gap-[50px] items-start">
           {/* Foto */}
           <div className="autonomy-image rounded-[20px] overflow-hidden aspect-[4/5] bg-acolhimento shadow-[0_20px_60px_rgba(44,16,10,0.06)] opacity-0 md:sticky md:top-28">
@@ -130,7 +129,7 @@ export default function Autonomy() {
               src="/foto-ana.jpg"
               className="w-full h-full object-cover"
               loading="lazy"
-              alt="Ana Clara Reis — psicóloga e artista"
+              alt="Ana Clara Reis - psicóloga e artista"
               onError={(e) => {
                 e.currentTarget.src =
                   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'%3E%3Crect width='800' height='1000' fill='%23FDF7F2'/%3E%3Ccircle cx='400' cy='400' r='200' fill='%23E8D5C4' opacity='0.4'/%3E%3C/svg%3E";
